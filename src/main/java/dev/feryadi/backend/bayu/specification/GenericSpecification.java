@@ -16,6 +16,7 @@ import java.util.List;
 public class GenericSpecification<T> implements Specification<T> {
 
     private List<SearchCriteria> searchCriteria = new ArrayList<>();
+    private SpecificationType specificationType;
 
     public GenericSpecification() {
 
@@ -25,14 +26,18 @@ public class GenericSpecification<T> implements Specification<T> {
         this.searchCriteria = searchCriteria;
     }
 
+    public GenericSpecification(List<SearchCriteria> searchCriteria, SpecificationType specificationType) {
+        this.searchCriteria = searchCriteria;
+        this.specificationType = specificationType;
+    }
     @Override
     public Specification<T> and(Specification<T> other) {
-        return null;
+        return Specification.super.and(other);
     }
 
     @Override
     public Specification<T> or(Specification<T> other) {
-        return null;
+        return Specification.super.and(other);
     }
 
     public void add(SearchCriteria criteria) {
@@ -41,10 +46,12 @@ public class GenericSpecification<T> implements Specification<T> {
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+
+
         //create a new predicate list
         List<Predicate> predicates = new ArrayList<>();
 
-        //add add criteria to predicates
+        //add criteria to predicates
         for (SearchCriteria criteria : searchCriteria) {
             if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
                 predicates.add(criteriaBuilder.greaterThan(
@@ -89,6 +96,20 @@ public class GenericSpecification<T> implements Specification<T> {
             }
         }
 
+        if (specificationType == SpecificationType.AND) {
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        } else if (specificationType == SpecificationType.OR) {
+            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+        }
+
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+    }
+
+    public SpecificationType getSpecificationType() {
+        return specificationType;
+    }
+
+    public void setSpecificationType(SpecificationType specificationType) {
+        this.specificationType = specificationType;
     }
 }
