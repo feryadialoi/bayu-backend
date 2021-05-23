@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class GetUserMutationsCommandRequest implements CommandRequest {
+    private Long userId;
     private ListUserMutationRequest listUserMutationRequest;
 }

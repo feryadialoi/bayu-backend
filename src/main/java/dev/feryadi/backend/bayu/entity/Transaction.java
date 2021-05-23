@@ -33,4 +33,16 @@ public class Transaction extends AuditingEntity{
 
     @Column(name = "amount")
     private BigDecimal amount;
+
+    @ManyToOne
+    @JoinTable(
+            name = "wallets",
+            joinColumns = {
+                    @JoinColumn(name = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")
+            }
+    )
+    private User user;
 }

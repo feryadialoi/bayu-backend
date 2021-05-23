@@ -7,9 +7,7 @@ import dev.feryadi.backend.bayu.exception.NotFoundException;
 import dev.feryadi.backend.bayu.model.request.command.GetUserWalletCommandRequest;
 import dev.feryadi.backend.bayu.model.response.WalletBalanceResponse;
 import dev.feryadi.backend.bayu.modelmapper.WalletBalanceMapper;
-import dev.feryadi.backend.bayu.repository.BalanceRepository;
 import dev.feryadi.backend.bayu.repository.UserRepository;
-import dev.feryadi.backend.bayu.repository.WalletRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
