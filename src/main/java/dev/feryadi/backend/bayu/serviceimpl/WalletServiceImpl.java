@@ -1,12 +1,17 @@
 package dev.feryadi.backend.bayu.serviceimpl;
 
+import dev.feryadi.backend.bayu.command.wallet.GetWalletCommand;
+import dev.feryadi.backend.bayu.command.wallet.GetWalletsCommand;
 import dev.feryadi.backend.bayu.entity.Wallet;
 import dev.feryadi.backend.bayu.model.request.CreateWalletRequest;
 import dev.feryadi.backend.bayu.model.request.ListWalletRequest;
+import dev.feryadi.backend.bayu.model.request.command.GetWalletCommandRequest;
+import dev.feryadi.backend.bayu.model.request.command.GetWalletsCommandRequest;
 import dev.feryadi.backend.bayu.model.response.WalletBalanceResponse;
 import dev.feryadi.backend.bayu.modelmapper.WalletBalanceMapper;
 import dev.feryadi.backend.bayu.modelmapper.WalletMapper;
 import dev.feryadi.backend.bayu.repository.WalletRepository;
+import dev.feryadi.backend.bayu.service.ServiceExecutor;
 import dev.feryadi.backend.bayu.service.WalletService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +27,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WalletServiceImpl implements WalletService {
 
-    private final WalletRepository walletRepository;
-    private final WalletBalanceMapper walletBalanceMapper;
-
+    private final ServiceExecutor serviceExecutor;
 
     @Override
     public List<WalletBalanceResponse> getWallets(ListWalletRequest listWalletRequest) {
-        PageRequest pageRequest = PageRequest.of(listWalletRequest.getPage(), listWalletRequest.getSize());
-        Page<Wallet> pageOfWallet = walletRepository.findAll(pageRequest);
-        List<Wallet> wallets = pageOfWallet.get().collect(Collectors.toList());
-
-        return wallets.stream().map(walletBalanceMapper::mapWalletToWalletBalanceResponse).collect(Collectors.toList());
+        return serviceExecutor.execute(GetWalletsCommand.class, new GetWalletsCommandRequest(listWalletRequest));
     }
 
     @Override
     public WalletBalanceResponse getWallet(Long walletId) {
-        Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
-        return optionalWallet.map(walletBalanceMapper::mapWalletToWalletBalanceResponse).orElse(null);
+        return serviceExecutor.execute(GetWalletCommand.class, new GetWalletCommandRequest(walletId));
     }
 
     @Override
     public WalletBalanceResponse createWallet(CreateWalletRequest createWalletRequest) {
-
         return null;
     }
 }
