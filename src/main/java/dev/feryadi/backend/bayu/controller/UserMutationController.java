@@ -32,7 +32,7 @@ public class UserMutationController extends BaseController {
             @RequestParam(value = "size", defaultValue = "10") Integer size,
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "endDate", required = false) String endDate
-    ) throws Exception {
+    ) {
         ListUserMutationRequest listUserMutationRequest = ListUserMutationRequest.builder()
                 .page(page)
                 .size(size)
@@ -50,9 +50,9 @@ public class UserMutationController extends BaseController {
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
     @GetMapping(value = {"/api/v1/users/{userId}/mutations/{mutationId}"})
     public ResponseEntity<ApiResponse<UserMutationDetailResponse>> getUserMutation(
-        @PathVariable(value = "userId") Long userId,
-        @PathVariable(value = "mutationId") Long mutationId
-    ) throws Exception {
+            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "mutationId") Long mutationId
+    ) {
         return createResponse(
                 HttpStatus.OK,
                 "Get user mutation successfully",

@@ -20,7 +20,7 @@ public class TransferController extends BaseController {
 
 
     @PostMapping(value = {"/api/v1/transfers"})
-    public ResponseEntity<ApiResponse<TransferResponse>> transfer(@RequestBody TransferRequest transferRequest) throws Exception {
+    public ResponseEntity<ApiResponse<TransferResponse>> transfer(@RequestBody TransferRequest transferRequest) {
         return createResponse(
                 HttpStatus.OK,
                 "Transfer successfully",

@@ -22,7 +22,7 @@ public class TransactionController extends BaseController {
     private final TransactionService transactionService;
 
     @GetMapping(value = {"api/v1/transactions"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getTransactions() throws Exception {
+    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getTransactions() {
         return createResponse(
                 HttpStatus.OK,
                 "get transactions success",

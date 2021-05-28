@@ -24,7 +24,7 @@ public class UserBalanceController extends BaseController {
     @GetMapping(value = "/api/v1/users/{userId}/balances")
     public ResponseEntity<ApiResponse<BalanceResponse>> getUserBalance(
             @PathVariable(value = "userId") Long userId
-    ) throws Exception {
+    ) {
         return createResponse(HttpStatus.OK, "Get user balance successfully", userBalanceService.getUserBalance(userId));
     }
 }

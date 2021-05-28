@@ -33,7 +33,7 @@ public class UserController extends BaseController {
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "roleName", required = false) String roleName
-    ) throws Exception {
+    ) {
         ListUserRequest listUserRequest = ListUserRequest.builder()
                 .size(size)
                 .page(page)

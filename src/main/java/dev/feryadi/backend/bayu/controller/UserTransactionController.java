@@ -30,7 +30,7 @@ public class UserTransactionController extends BaseController {
             @PathVariable(value = "userId") Long userId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size
-    ) throws Exception {
+    ) {
         ListUserTransactionRequest listUserTransactionRequest = ListUserTransactionRequest.builder()
                 .page(page)
                 .size(size)
@@ -48,7 +48,7 @@ public class UserTransactionController extends BaseController {
     public ResponseEntity<ApiResponse<UserTransactionResponse>> getUserTransaction(
             @PathVariable(value = "userId") Long userId,
             @PathVariable(value = "transactionId") Long transactionId
-    ) throws Exception {
+    ) {
         return createResponse(
                 HttpStatus.OK,
                 "Get user transactions successfully",
