@@ -36,12 +36,12 @@ public class UserTransactionServiceImpl implements UserTransactionService {
 
 
     @Override
-    public List<UserTransactionResponse> getUserTransactions(Long userId, ListUserTransactionRequest listUserTransactionRequest) throws Exception {
+    public List<UserTransactionResponse> getUserTransactions(Long userId, ListUserTransactionRequest listUserTransactionRequest) {
         return serviceExecutor.execute(GetUserTransactionsCommand.class, new GetUserTransactionsCommandRequest(userId, listUserTransactionRequest));
     }
 
     @Override
-    public UserTransactionResponse getUserTransaction(Long userId, Long transactionId) throws Exception {
+    public UserTransactionResponse getUserTransaction(Long userId, Long transactionId) {
         return serviceExecutor.execute(GetUserTransactionCommand.class, new GetUserTransactionCommandRequest(userId, transactionId));
     }
 }

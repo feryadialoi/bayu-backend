@@ -1,7 +1,7 @@
 package dev.feryadi.backend.bayu.exception;
 
 
-public class AlreadyExistException extends Exception {
+public class AlreadyExistException extends RuntimeException {
     public AlreadyExistException() {
         super();
     }

@@ -28,9 +28,10 @@ public class UserMutationServiceImpl implements UserMutationService {
     private final ServiceExecutor serviceExecutor;
 
     @Override
-    public List<UserMutationResponse> getUserMutations(Long userId,
-                                                       ListUserMutationRequest listUserMutationRequest
-    ) throws Exception {
+    public List<UserMutationResponse> getUserMutations(
+            Long userId,
+            ListUserMutationRequest listUserMutationRequest
+    ) {
         return serviceExecutor.execute(
                 GetUserMutationsCommand.class,
                 new GetUserMutationsCommandRequest(userId, listUserMutationRequest)
@@ -38,7 +39,7 @@ public class UserMutationServiceImpl implements UserMutationService {
     }
 
     @Override
-    public UserMutationDetailResponse getUserMutation(Long userId, Long mutationId) throws Exception {
+    public UserMutationDetailResponse getUserMutation(Long userId, Long mutationId) {
         return serviceExecutor.execute(
                 GetUserMutationDetailCommand.class,
                 new GetUserMutationDetailCommandRequest(userId, mutationId)

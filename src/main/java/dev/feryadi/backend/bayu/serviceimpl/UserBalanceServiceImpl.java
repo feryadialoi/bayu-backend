@@ -23,7 +23,7 @@ public class UserBalanceServiceImpl implements UserBalanceService {
 
 
     @Override
-    public BalanceResponse getUserBalance(Long userId) throws Exception {
+    public BalanceResponse getUserBalance(Long userId) {
         return serviceExecutor.execute(GetUserBalanceCommand.class, new GetUserBalanceCommandRequest(userId));
     }
 }

@@ -20,7 +20,7 @@ public class GetTransactionsCommandImpl implements GetTransactionsCommand {
     private final TransactionMapper transactionMapper;
 
     @Override
-    public List<TransactionResponse> execute(GetTransactionsCommandRequest request) throws Exception {
+    public List<TransactionResponse> execute(GetTransactionsCommandRequest request) {
         List<Transaction> transactions = transactionRepository.findAll();
         return transactions.stream().map(transactionMapper::mapTransactionToTransactionResponse).collect(Collectors.toList());
     }

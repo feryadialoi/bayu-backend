@@ -4,8 +4,8 @@ import dev.feryadi.backend.bayu.command.userwallet.CreateUserWalletCommand;
 import dev.feryadi.backend.bayu.entity.Balance;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.Wallet;
-import dev.feryadi.backend.bayu.exception.AlreadyExistException;
-import dev.feryadi.backend.bayu.exception.NotFoundException;
+import dev.feryadi.backend.bayu.exception.UserWalletAlreadyExistsException;
+import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.model.request.command.CreateUserWalletCommandRequest;
 import dev.feryadi.backend.bayu.model.response.WalletBalanceResponse;
 import dev.feryadi.backend.bayu.modelmapper.WalletBalanceMapper;
@@ -29,7 +29,7 @@ public class CreateUserWalletCommandImpl implements CreateUserWalletCommand {
     private final WalletBalanceMapper walletBalanceMapper;
 
     @Override
-    public WalletBalanceResponse execute(CreateUserWalletCommandRequest request) throws Exception {
+    public WalletBalanceResponse execute(CreateUserWalletCommandRequest request) {
 
 
         Optional<User> optionalUser = userRepository.findById(request.getUserId());
@@ -55,9 +55,9 @@ public class CreateUserWalletCommandImpl implements CreateUserWalletCommand {
                 return walletBalanceMapper.mapWalletToWalletBalanceResponse(wallet);
             }
 
-            throw new AlreadyExistException("User with id " + request.getUserId() + " already has a wallet");
+            throw new UserWalletAlreadyExistsException("User with id " + request.getUserId() + " already has a wallet");
         }
 
-        throw new NotFoundException("user with id " + request.getUserId() + " not found");
+        throw new UserNotFoundException("user with id " + request.getUserId() + " not found");
     }
 }

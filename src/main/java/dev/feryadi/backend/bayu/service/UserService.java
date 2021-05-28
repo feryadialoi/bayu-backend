@@ -8,10 +8,14 @@ import dev.feryadi.backend.bayu.model.response.UserResponse;
 import java.util.List;
 
 public interface UserService {
-    UserResponse createUser(CreateUserRequest createUserRequest) throws Exception;
-    UserResponse updateUser(Long userId, UpdateUserRequest updateUserRequest) throws Exception;
-    UserResponse getUser(Long userId) throws Exception;
-    List<UserResponse> getUsers(ListUserRequest listUserRequest) throws Exception;
-    UserResponse getUserByEmail(String email) throws Exception;
+    UserResponse createUser(CreateUserRequest createUserRequest);
+
+    UserResponse updateUser(Long userId, UpdateUserRequest updateUserRequest);
+
+    UserResponse getUser(Long userId);
+
+    List<UserResponse> getUsers(ListUserRequest listUserRequest);
+
+    UserResponse getUserByEmail(String email);
 
 }

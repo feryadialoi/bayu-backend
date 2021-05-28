@@ -20,7 +20,7 @@ public class GetUserRoleCommandImpl implements GetUserRoleCommand {
 
 
     @Override
-    public UserRoleResponse execute(GetUserRoleCommandRequest request) throws Exception {
+    public UserRoleResponse execute(GetUserRoleCommandRequest request) {
         return userRepository.findById(request.getUserId())
                 .map(userRoleMapper::mapUserToUserRoleResponse)
                 .orElse(null);

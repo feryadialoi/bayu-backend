@@ -16,8 +16,7 @@ public class ServiceExecutorImpl implements ServiceExecutor {
     @Override
     public <RESPONSE, REQUEST extends CommandRequest> RESPONSE execute(
             Class<? extends Command<RESPONSE, REQUEST>> commandClass,
-            REQUEST request) throws Exception
-    {
+            REQUEST request) {
         return applicationContext.getBean(commandClass).execute(request);
     }
 }

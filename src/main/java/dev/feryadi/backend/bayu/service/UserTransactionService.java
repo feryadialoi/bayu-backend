@@ -7,6 +7,7 @@ import dev.feryadi.backend.bayu.model.response.UserTransactionResponse;
 import java.util.List;
 
 public interface UserTransactionService {
-    List<UserTransactionResponse> getUserTransactions(Long userId, ListUserTransactionRequest listUserTransactionRequest) throws NotFoundException, Exception;
-    UserTransactionResponse getUserTransaction(Long userId, Long transactionId) throws NotFoundException, Exception;
+    List<UserTransactionResponse> getUserTransactions(Long userId, ListUserTransactionRequest listUserTransactionRequest);
+
+    UserTransactionResponse getUserTransaction(Long userId, Long transactionId);
 }

@@ -20,7 +20,7 @@ public class GetUserByEmailCommandImpl implements GetUserByEmailCommand {
 
 
     @Override
-    public UserResponse execute(GetUserByEmailCommandRequest getUserByEmailCommandRequest) throws Exception {
+    public UserResponse execute(GetUserByEmailCommandRequest getUserByEmailCommandRequest) {
         return userRepository.findByEmail(getUserByEmailCommandRequest.getEmail())
                 .map(userMapper::mapUserToUserResponse)
                 .orElse(null);

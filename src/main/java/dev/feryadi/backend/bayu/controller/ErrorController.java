@@ -1,9 +1,6 @@
 package dev.feryadi.backend.bayu.controller;
 
-import dev.feryadi.backend.bayu.exception.AlreadyExistException;
-import dev.feryadi.backend.bayu.exception.ForbiddenAccessException;
-import dev.feryadi.backend.bayu.exception.NotFoundException;
-import dev.feryadi.backend.bayu.exception.ValidationNotValidException;
+import dev.feryadi.backend.bayu.exception.*;
 import dev.feryadi.backend.bayu.model.NotValidDetail;
 import dev.feryadi.backend.bayu.model.response.ApiResponseError;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +22,31 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ErrorController extends ErrorBaseController {
+    @ExceptionHandler(value = {UserNotFoundException.class})
+    public ResponseEntity<ApiResponseError<String>> userNotFound(UserNotFoundException userNotFoundException) {
+        return createResponse(HttpStatus.NOT_FOUND, "", userNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(value = {WalletNotFoundException.class})
+    public ResponseEntity<ApiResponseError<String>> walletNotFound(WalletNotFoundException walletNotFoundException) {
+        return createResponse(HttpStatus.NOT_FOUND, "", walletNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(value = {MutationNotFoundException.class})
+    public ResponseEntity<ApiResponseError<String>> mutationNotFound(MutationNotFoundException mutationNotFoundException) {
+        return createResponse(HttpStatus.NOT_FOUND, "", mutationNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(value = {TransactionNotFoundException.class})
+    public ResponseEntity<ApiResponseError<String>> transactionNotFound(TransactionNotFoundException transactionNotFoundException) {
+        return createResponse(HttpStatus.NOT_FOUND, "", transactionNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(value = {UserWalletAlreadyExistsException.class})
+    public ResponseEntity<ApiResponseError<String>> userWalletAlreadyExists(UserWalletAlreadyExistsException userWalletAlreadyExistsException) {
+        return createResponse(HttpStatus.CONFLICT, "", userWalletAlreadyExistsException.getMessage());
+    }
+
     @ExceptionHandler(value = {IllegalStateException.class})
     public ResponseEntity<ApiResponseError<String>> illegalState(
             IllegalStateException illegalStateException
@@ -57,7 +79,7 @@ public class ErrorController extends ErrorBaseController {
     public ResponseEntity<ApiResponseError<String>> constraintViolation(
             ConstraintViolationException constraintViolationException
     ) {
-        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY,"", constraintViolationException.getMessage());
+        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, "", constraintViolationException.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

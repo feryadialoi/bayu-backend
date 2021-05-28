@@ -18,7 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public List<TransactionResponse> getTransactions() throws Exception {
+    public List<TransactionResponse> getTransactions() {
         return serviceExecutor.execute(GetTransactionsCommand.class, new GetTransactionsCommandRequest());
     }
 }

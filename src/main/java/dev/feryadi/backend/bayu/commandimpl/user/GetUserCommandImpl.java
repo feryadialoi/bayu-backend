@@ -20,7 +20,7 @@ public class GetUserCommandImpl implements GetUserCommand {
 
 
     @Override
-    public UserResponse execute(GetUserCommandRequest getUserCommandRequest) throws Exception {
+    public UserResponse execute(GetUserCommandRequest getUserCommandRequest) {
         return userRepository.findById(getUserCommandRequest.getUserId())
                 .map(userMapper::mapUserToUserResponse)
                 .orElse(null);

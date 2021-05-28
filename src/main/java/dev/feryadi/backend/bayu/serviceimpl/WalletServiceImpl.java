@@ -26,7 +26,6 @@ public class WalletServiceImpl implements WalletService {
     private final WalletBalanceMapper walletBalanceMapper;
 
 
-
     @Override
     public List<WalletBalanceResponse> getWallets(ListWalletRequest listWalletRequest) {
         PageRequest pageRequest = PageRequest.of(listWalletRequest.getPage(), listWalletRequest.getSize());

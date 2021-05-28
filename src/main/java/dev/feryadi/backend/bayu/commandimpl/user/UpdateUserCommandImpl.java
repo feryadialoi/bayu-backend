@@ -3,6 +3,7 @@ package dev.feryadi.backend.bayu.commandimpl.user;
 import dev.feryadi.backend.bayu.command.user.UpdateUserCommand;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.exception.NotFoundException;
+import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.model.request.UpdateUserRequest;
 import dev.feryadi.backend.bayu.model.request.command.UpdateUserCommandRequest;
 import dev.feryadi.backend.bayu.model.response.UserResponse;
@@ -21,7 +22,7 @@ public class UpdateUserCommandImpl implements UpdateUserCommand {
     private final UserMapper userMapper;
 
     @Override
-    public UserResponse execute(UpdateUserCommandRequest updateUserCommandRequest) throws Exception {
+    public UserResponse execute(UpdateUserCommandRequest updateUserCommandRequest) {
 
         return userRepository.findById(updateUserCommandRequest.getUserId())
                 .map(user -> {
@@ -44,7 +45,7 @@ public class UpdateUserCommandImpl implements UpdateUserCommand {
 
                     return userMapper.mapUserToUserResponse(user);
                 })
-                .orElseThrow(() -> new NotFoundException("User with id " + updateUserCommandRequest.getUserId() + " not found"));
+                .orElseThrow(() -> new UserNotFoundException("User with id " + updateUserCommandRequest.getUserId() + " not found"));
 
 
 //        Long userId = updateUserCommandRequest.getUserId();

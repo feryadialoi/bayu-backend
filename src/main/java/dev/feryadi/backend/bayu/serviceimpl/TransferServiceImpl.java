@@ -19,7 +19,7 @@ public class TransferServiceImpl implements TransferService {
 
 
     @Override
-    public TransferResponse transfer(TransferRequest transferRequest) throws Exception {
+    public TransferResponse transfer(TransferRequest transferRequest) {
         return serviceExecutor.execute(
                 TransferCommand.class,
                 new TransferCommandRequest(transferRequest)

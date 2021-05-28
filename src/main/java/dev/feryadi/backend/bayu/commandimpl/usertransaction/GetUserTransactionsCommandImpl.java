@@ -1,18 +1,18 @@
 package dev.feryadi.backend.bayu.commandimpl.usertransaction;
 
 import dev.feryadi.backend.bayu.command.usertransaction.GetUserTransactionsCommand;
-import dev.feryadi.backend.bayu.criteria.SearchCriteria;
-import dev.feryadi.backend.bayu.criteria.SearchOperation;
+import dev.feryadi.backend.bayu.exception.UserNotFoundException;
+import dev.feryadi.backend.bayu.specificationandcriteria.SearchCriteria;
+import dev.feryadi.backend.bayu.specificationandcriteria.SearchOperation;
 import dev.feryadi.backend.bayu.entity.Transaction;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.exception.NotFoundException;
-import dev.feryadi.backend.bayu.model.request.ListUserTransactionRequest;
 import dev.feryadi.backend.bayu.model.request.command.GetUserTransactionsCommandRequest;
 import dev.feryadi.backend.bayu.model.response.UserTransactionResponse;
 import dev.feryadi.backend.bayu.modelmapper.UserTransactionMapper;
 import dev.feryadi.backend.bayu.repository.TransactionRepository;
 import dev.feryadi.backend.bayu.repository.UserRepository;
-import dev.feryadi.backend.bayu.specification.GenericSpecification;
+import dev.feryadi.backend.bayu.specificationandcriteria.GenericSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +33,7 @@ public class GetUserTransactionsCommandImpl implements GetUserTransactionsComman
 
 
     @Override
-    public List<UserTransactionResponse> execute(GetUserTransactionsCommandRequest request) throws Exception {
+    public List<UserTransactionResponse> execute(GetUserTransactionsCommandRequest request) {
 
 // VERSION 3
         Optional<User> optionalUser = userRepository.findById(request.getUserId());
@@ -63,7 +63,7 @@ public class GetUserTransactionsCommandImpl implements GetUserTransactionsComman
                     .collect(Collectors.toList());
         }
 
-        throw new NotFoundException("user with id " + request.getUserId() + " not found");
+        throw new UserNotFoundException("user with id " + request.getUserId() + " not found");
 
 
 // VERSION 2

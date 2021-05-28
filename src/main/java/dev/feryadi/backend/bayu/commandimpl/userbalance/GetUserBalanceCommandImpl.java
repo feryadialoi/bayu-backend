@@ -4,6 +4,7 @@ import dev.feryadi.backend.bayu.command.userbalance.GetUserBalanceCommand;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.Wallet;
 import dev.feryadi.backend.bayu.exception.NotFoundException;
+import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.model.request.command.GetUserBalanceCommandRequest;
 import dev.feryadi.backend.bayu.model.response.BalanceResponse;
 import dev.feryadi.backend.bayu.modelmapper.BalanceMapper;
@@ -21,14 +22,14 @@ public class GetUserBalanceCommandImpl implements GetUserBalanceCommand {
 
 
     @Override
-    public BalanceResponse execute(GetUserBalanceCommandRequest request) throws Exception {
+    public BalanceResponse execute(GetUserBalanceCommandRequest request) {
         Long userId = request.getUserId();
 
         return userRepository.findById(userId)
                 .map(User::getWallet)
                 .map(Wallet::getBalance)
                 .map(balanceMapper::mapBalanceToBalanceResponse)
-                .orElseThrow(() -> new NotFoundException("User with id " + userId + " doesn't have wallet"));
+                .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " doesn't have wallet"));
 
 //        Optional<User> optionalUser = userRepository.findById(userId);
 //

@@ -29,7 +29,7 @@ public class TransferCommandImpl implements TransferCommand {
 
     @Transactional
     @Override
-    public TransferResponse execute(TransferCommandRequest transferCommandRequest) throws Exception {
+    public TransferResponse execute(TransferCommandRequest transferCommandRequest) {
         TransferRequest transferRequest = transferCommandRequest.getTransferRequest();
 
 

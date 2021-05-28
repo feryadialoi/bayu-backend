@@ -1,4 +1,4 @@
-package dev.feryadi.backend.bayu.criteria;
+package dev.feryadi.backend.bayu.specificationandcriteria;
 
 public enum SearchOperation {
     GREATER_THAN,
@@ -8,5 +8,6 @@ public enum SearchOperation {
     NOT_EQUAL,
     EQUAL,
     MATCH,
-    MATCH_END
+    MATCH_END,
+    IN
 }

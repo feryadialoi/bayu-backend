@@ -21,7 +21,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final ServiceExecutor serviceExecutor;
 
     @Override
-    public UserRoleResponse getUserRole(Long userId) throws Exception {
+    public UserRoleResponse getUserRole(Long userId) {
         return serviceExecutor.execute(GetUserRoleCommand.class, new GetUserRoleCommandRequest(userId));
     }
 }

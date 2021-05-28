@@ -1,9 +1,5 @@
-package dev.feryadi.backend.bayu.specification;
+package dev.feryadi.backend.bayu.specificationandcriteria;
 
-import dev.feryadi.backend.bayu.criteria.SearchCriteria;
-import dev.feryadi.backend.bayu.criteria.SearchOperation;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

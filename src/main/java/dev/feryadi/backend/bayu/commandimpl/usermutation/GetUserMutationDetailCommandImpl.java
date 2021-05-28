@@ -4,7 +4,9 @@ import dev.feryadi.backend.bayu.command.usermutation.GetUserMutationDetailComman
 import dev.feryadi.backend.bayu.entity.Mutation;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.Wallet;
+import dev.feryadi.backend.bayu.exception.MutationNotFoundException;
 import dev.feryadi.backend.bayu.exception.NotFoundException;
+import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.model.request.GetUserMutationDetailCommandRequest;
 import dev.feryadi.backend.bayu.model.response.UserMutationDetailResponse;
 import dev.feryadi.backend.bayu.modelmapper.UserMutationDetailMapper;
@@ -24,7 +26,7 @@ public class GetUserMutationDetailCommandImpl implements GetUserMutationDetailCo
     private final UserMutationDetailMapper userMutationDetailMapper;
 
     @Override
-    public UserMutationDetailResponse execute(GetUserMutationDetailCommandRequest request) throws Exception {
+    public UserMutationDetailResponse execute(GetUserMutationDetailCommandRequest request) {
 
         Optional<User> optionalUser = userRepository.findById(request.getUserId());
         Optional<Mutation> optionalMutation = mutationRepository.findById(request.getMutationId());
@@ -39,15 +41,15 @@ public class GetUserMutationDetailCommandImpl implements GetUserMutationDetailCo
                     return userMutationDetailMapper.mapMutationToUserMutationDetailResponse(mutation);
                 }
 
-                throw new NotFoundException("user mutation id " + request.getUserId() + " not found");
+                throw new MutationNotFoundException("user mutation id " + request.getUserId() + " not found");
 
             }
 
-            throw new NotFoundException("user mutation id " + request.getUserId() + " not found");
+            throw new MutationNotFoundException("user mutation id " + request.getUserId() + " not found");
 
         }
 
-        throw new NotFoundException("user with id " + request.getUserId() + " not found");
+        throw new UserNotFoundException("user with id " + request.getUserId() + " not found");
 
     }
 }

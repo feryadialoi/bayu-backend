@@ -1,8 +1,8 @@
 package dev.feryadi.backend.bayu.commandimpl.user;
 
 import dev.feryadi.backend.bayu.command.user.GetUsersCommand;
-import dev.feryadi.backend.bayu.criteria.SearchCriteria;
-import dev.feryadi.backend.bayu.criteria.SearchOperation;
+import dev.feryadi.backend.bayu.specificationandcriteria.SearchCriteria;
+import dev.feryadi.backend.bayu.specificationandcriteria.SearchOperation;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.roleandpermission.Role;
 import dev.feryadi.backend.bayu.model.request.ListUserRequest;
@@ -11,7 +11,7 @@ import dev.feryadi.backend.bayu.model.response.UserResponse;
 import dev.feryadi.backend.bayu.modelmapper.UserMapper;
 import dev.feryadi.backend.bayu.repository.RoleRepository;
 import dev.feryadi.backend.bayu.repository.UserRepository;
-import dev.feryadi.backend.bayu.specification.GenericSpecification;
+import dev.feryadi.backend.bayu.specificationandcriteria.GenericSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ public class GetUsersCommandImpl implements GetUsersCommand {
     private final UserMapper userMapper;
 
     @Override
-    public List<UserResponse> execute(GetUsersCommandRequest getUsersCommandRequest) throws Exception {
+    public List<UserResponse> execute(GetUsersCommandRequest getUsersCommandRequest) {
         ListUserRequest listUserRequest = getUsersCommandRequest.getListUserRequest();
 
         Sort sort = Sort.by("id").ascending();

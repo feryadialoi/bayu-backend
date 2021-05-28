@@ -4,6 +4,7 @@ import dev.feryadi.backend.bayu.command.user.CreateUserCommand;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.roleandpermission.Role;
 import dev.feryadi.backend.bayu.exception.NotFoundException;
+import dev.feryadi.backend.bayu.exception.RoleNotFoundException;
 import dev.feryadi.backend.bayu.model.request.CreateUserRequest;
 import dev.feryadi.backend.bayu.model.request.command.CreateUserCommandRequest;
 import dev.feryadi.backend.bayu.model.response.UserResponse;
@@ -26,7 +27,7 @@ public class CreateUserCommandImpl implements CreateUserCommand {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserResponse execute(CreateUserCommandRequest createUserCommandRequest) throws Exception {
+    public UserResponse execute(CreateUserCommandRequest createUserCommandRequest) {
         return roleRepository.findRoleByName("USER")
                 .map(role -> {
                     CreateUserRequest createUserRequest = createUserCommandRequest.getCreateUserRequest();
@@ -44,7 +45,7 @@ public class CreateUserCommandImpl implements CreateUserCommand {
                     return userMapper.mapUserToUserResponse(user);
 
                 })
-                .orElseThrow(() -> new NotFoundException(""));
+                .orElseThrow(() -> new RoleNotFoundException(""));
 
 //        CreateUserRequest createUserRequest = createUserCommandRequest.getCreateUserRequest();
 //

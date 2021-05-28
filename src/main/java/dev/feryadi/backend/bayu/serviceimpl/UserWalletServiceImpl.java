@@ -34,12 +34,12 @@ public class UserWalletServiceImpl implements UserWalletService {
     private final ServiceExecutor serviceExecutor;
 
     @Override
-    public WalletBalanceResponse getUserWallet(Long userId) throws Exception {
+    public WalletBalanceResponse getUserWallet(Long userId) {
         return serviceExecutor.execute(GetUserWalletCommand.class, new GetUserWalletCommandRequest(userId));
     }
 
     @Override
-    public WalletBalanceResponse createUserWallet(Long userId, CreateWalletRequest createWalletRequest) throws Exception {
+    public WalletBalanceResponse createUserWallet(Long userId, CreateWalletRequest createWalletRequest) {
         return serviceExecutor.execute(CreateUserWalletCommand.class, new CreateUserWalletCommandRequest(userId, createWalletRequest));
     }
 }
