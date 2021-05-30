@@ -22,6 +22,21 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ErrorController extends ErrorBaseController {
+    @ExceptionHandler(value = {InsufficientBalanceException.class})
+    public ResponseEntity<ApiResponseError<String>> insufficientBalance(InsufficientBalanceException insufficientBalanceException) {
+        return createResponse(HttpStatus.BAD_REQUEST, "", insufficientBalanceException.getMessage());
+    }
+
+    @ExceptionHandler(value = {TransferToOwnWalletException.class})
+    public ResponseEntity<ApiResponseError<String>> transferToOwnWallet(TransferToOwnWalletException transferToOwnWalletException) {
+        return createResponse(HttpStatus.BAD_REQUEST, "", transferToOwnWalletException.getMessage());
+    }
+
+    @ExceptionHandler(value = {ZeroAmountTransferException.class})
+    public ResponseEntity<ApiResponseError<String>> zeroAmountTransfer(ZeroAmountTransferException zeroAmountTransferException) {
+        return createResponse(HttpStatus.BAD_REQUEST, "", zeroAmountTransferException.getMessage());
+    }
+
     @ExceptionHandler(value = {UserNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> userNotFound(UserNotFoundException userNotFoundException) {
         return createResponse(HttpStatus.NOT_FOUND, "", userNotFoundException.getMessage());

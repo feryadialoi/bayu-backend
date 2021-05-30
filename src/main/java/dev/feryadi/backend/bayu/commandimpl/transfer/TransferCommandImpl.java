@@ -4,6 +4,10 @@ import dev.feryadi.backend.bayu.auth.ApplicationUserDetails;
 import dev.feryadi.backend.bayu.command.transfer.TransferCommand;
 import dev.feryadi.backend.bayu.entity.Mutation;
 import dev.feryadi.backend.bayu.entity.Wallet;
+import dev.feryadi.backend.bayu.exception.InsufficientBalanceException;
+import dev.feryadi.backend.bayu.exception.TransferToOwnWalletException;
+import dev.feryadi.backend.bayu.exception.WalletNotFoundException;
+import dev.feryadi.backend.bayu.exception.ZeroAmountTransferException;
 import dev.feryadi.backend.bayu.model.request.TransferRequest;
 import dev.feryadi.backend.bayu.model.request.command.TransferCommandRequest;
 import dev.feryadi.backend.bayu.model.response.TransferResponse;
@@ -14,8 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Slf4j
@@ -27,15 +31,17 @@ public class TransferCommandImpl implements TransferCommand {
     private final WalletRepository walletRepository;
     private final TransferMapper transferMapper;
 
-    @Transactional
+
+    @Transactional()
     @Override
     public TransferResponse execute(TransferCommandRequest transferCommandRequest) {
+
         TransferRequest transferRequest = transferCommandRequest.getTransferRequest();
 
 
         if (transferRequest.getOriginWalletAddress().equals(transferRequest.getDestinationWalletAddress())) {
             log.info("cannot transfer to its own wallet");
-            throw new IllegalStateException("0 amount transfer is not allowed");
+            throw new TransferToOwnWalletException("cannot transfer to its own wallet");
         }
 
         ApplicationUserDetails userDetails = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -45,17 +51,17 @@ public class TransferCommandImpl implements TransferCommand {
 
         if (transferRequest.getAmount().compareTo(new BigDecimal(0)) <= 0) {
             log.info("0 amount transfer is not allowed");
-            throw new IllegalStateException("0 amount transfer is not allowed");
+            throw new ZeroAmountTransferException("0 amount transfer is not allowed");
         }
 
         if (originWallet == null) {
             log.info("origin wallet not found");
-            throw new IllegalStateException("origin wallet not found");
+            throw new WalletNotFoundException("origin wallet not found");
         }
 
         if (destinationWallet == null) {
             log.info("destination wallet not found");
-            throw new IllegalStateException("destination wallet not found");
+            throw new WalletNotFoundException("destination wallet not found");
         }
 
         if (!userDetails.getId().equals(originWallet.getUser().getId())) {
@@ -65,7 +71,7 @@ public class TransferCommandImpl implements TransferCommand {
 
         if (originWallet.getBalance().getBalance().compareTo(transferRequest.getAmount()) < 0) {
             log.info("Insufficient balance");
-            throw new IllegalStateException("Insufficient balance");
+            throw new InsufficientBalanceException("Insufficient balance");
         }
 
         // subtract origin wallet balance
