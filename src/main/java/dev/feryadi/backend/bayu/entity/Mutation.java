@@ -1,6 +1,7 @@
 package dev.feryadi.backend.bayu.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "mutations")
