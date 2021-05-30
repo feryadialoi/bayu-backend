@@ -37,6 +37,6 @@ public class Mutation extends AuditingEntity {
     @JoinColumn(name = "destination_wallet_id", referencedColumnName = "id")
     private Wallet destinationWallet;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 }
