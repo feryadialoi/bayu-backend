@@ -8,12 +8,14 @@ import dev.feryadi.backend.bayu.exception.InsufficientBalanceException;
 import dev.feryadi.backend.bayu.exception.TransferToOwnWalletException;
 import dev.feryadi.backend.bayu.exception.WalletNotFoundException;
 import dev.feryadi.backend.bayu.exception.ZeroAmountTransferException;
+import dev.feryadi.backend.bayu.model.request.LogTransactionRequest;
 import dev.feryadi.backend.bayu.model.request.TransferRequest;
 import dev.feryadi.backend.bayu.model.request.command.TransferCommandRequest;
 import dev.feryadi.backend.bayu.model.response.TransferResponse;
 import dev.feryadi.backend.bayu.modelmapper.TransferMapper;
 import dev.feryadi.backend.bayu.repository.MutationRepository;
 import dev.feryadi.backend.bayu.repository.WalletRepository;
+import dev.feryadi.backend.bayu.service.TransactionLogService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,11 +32,18 @@ public class TransferCommandImpl implements TransferCommand {
     private final MutationRepository mutationRepository;
     private final WalletRepository walletRepository;
     private final TransferMapper transferMapper;
-
+    private final TransactionLogService transactionLogService;
 
     @Transactional()
     @Override
     public TransferResponse execute(TransferCommandRequest transferCommandRequest) {
+
+        transactionLogService.logTransactionStart(LogTransactionRequest.builder()
+                .originWalletAddress(transferCommandRequest.getTransferRequest().getOriginWalletAddress())
+                .destinationWalletAddress(transferCommandRequest.getTransferRequest().getDestinationWalletAddress())
+                .amount(transferCommandRequest.getTransferRequest().getAmount())
+                .description("START - " + transferCommandRequest.getTransferRequest().getDescription())
+                .build());
 
         TransferRequest transferRequest = transferCommandRequest.getTransferRequest();
 
@@ -93,6 +102,14 @@ public class TransferCommandImpl implements TransferCommand {
         mutation.setDestinationWallet(destinationWallet);
         mutation.setDescription(transferRequest.getDescription());
         mutationRepository.save(mutation);
+
+
+        transactionLogService.logTransactionSuccess(LogTransactionRequest.builder()
+                .originWalletAddress(transferCommandRequest.getTransferRequest().getOriginWalletAddress())
+                .destinationWalletAddress(transferCommandRequest.getTransferRequest().getDestinationWalletAddress())
+                .amount(transferCommandRequest.getTransferRequest().getAmount())
+                .description("SUCCESS - " + transferCommandRequest.getTransferRequest().getDescription())
+                .build());
 
         return transferMapper.mapTransferToTransferResponse(mutation);
     }
