@@ -68,6 +68,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private void authenticateByAuthorizationHeader(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info(HttpHeaders.AUTHORIZATION+"="+authorizationHeader);
         String token = authorizationHeader.replace("Bearer ", "");
         SecurityContextHolder.getContext().setAuthentication(authenticate(token));
     }
@@ -77,6 +78,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             DecodedJWT decodedJWT = jwtUtil.verifyToken(token);
             Long userId = jwtUtil.getUserId(decodedJWT);
             String subject = jwtUtil.getSubject(decodedJWT);
+
+            log.info("subject = " + subject);
+            log.info("id = " + userId);
 
             if (subject != null) {
 
