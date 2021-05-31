@@ -1,45 +1,54 @@
 package dev.feryadi.backend.bayu.repository;
 
 import dev.feryadi.backend.bayu.entity.User;
-import dev.feryadi.backend.bayu.specificationandcriteria.SearchCriteria;
-import dev.feryadi.backend.bayu.specificationandcriteria.SearchOperation;
-import dev.feryadi.backend.bayu.specificationandcriteria.UniversalSpecification;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.*;
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-public class UserRepositoryTest {
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class UserRepositoryTest {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
-    private EntityManager entityManager;
+    private TestEntityManager entityManager;
 
-    @Test
-    void testGetUserIn() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> root = criteriaQuery.from(User.class);
-
-
-        UniversalSpecification<User> specification = UniversalSpecification.<User>builder()
-                .searchCriteria(SearchCriteria.builder()
-                        .key("id")
-                        .operation(SearchOperation.IN)
-                        .values(Arrays.asList(1, 2, 3))
-                        .build())
+    @BeforeEach
+    void setUp() {
+        User user = User.builder()
+                .id(10L)
+                .name("aloi")
+                .email("aloi@gmail.com")
+                .username("aloi")
+                .password("password")
+                .phone("081254798560")
                 .build();
 
-        UniversalSpecification<User> specification1 = new UniversalSpecification<>(new SearchCriteria("id", SearchOperation.IN, Arrays.asList(1, 2, 3)));
+        entityManager.merge(user);
+    }
 
-        List<User> all = userRepository.findAll(specification1);
-        all.forEach(user -> System.out.println(MessageFormat.format("id = {0}, name = {1}", user.getId(), user.getName())));
+    @Test
+    public void whenFindByUsername_thenReturnUser() {
+        User user = userRepository.findByUsername("aloi").get();
+        assertEquals(user.getName(), "aloi");
+    }
+
+    @Test
+    void findByEmail() {
+    }
+
+    @Test
+    void findByUsername() {
+    }
+
+    @Test
+    void findAllByRoleName() {
     }
 }
