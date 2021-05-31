@@ -49,7 +49,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/testing").permitAll()
-                .antMatchers("/v2/api-docs").permitAll();
+                .antMatchers("/v2/api-docs").permitAll()
+                // configuration for swagger ui
+                .antMatchers("/configuration/ui").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/configuration/security").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/*").permitAll()
+                .antMatchers("/webjars/**").permitAll();
 
         List<String> allowedRoutes = new ArrayList<>();
         allowedRoutes.add("/home");
