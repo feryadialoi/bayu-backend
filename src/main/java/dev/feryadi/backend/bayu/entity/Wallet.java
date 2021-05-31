@@ -1,7 +1,6 @@
 package dev.feryadi.backend.bayu.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -11,6 +10,9 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "wallets")
 @SQLDelete(sql = "UPDATE wallets SET deleted = true WHERE id = ?")
