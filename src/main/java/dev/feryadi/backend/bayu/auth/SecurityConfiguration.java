@@ -2,7 +2,6 @@ package dev.feryadi.backend.bayu.auth;
 
 import dev.feryadi.backend.bayu.utils.ValidationUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
