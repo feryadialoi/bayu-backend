@@ -1,9 +1,7 @@
 package dev.feryadi.backend.bayu.entity;
 
 import dev.feryadi.backend.bayu.entity.roleandpermission.Role;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -13,6 +11,9 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
