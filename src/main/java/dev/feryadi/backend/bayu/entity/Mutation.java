@@ -1,7 +1,6 @@
 package dev.feryadi.backend.bayu.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -12,6 +11,9 @@ import java.math.BigDecimal;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "mutations")
 @SQLDelete(sql = "UPDATE wallets SET deleted = true WHERE id = ?")
