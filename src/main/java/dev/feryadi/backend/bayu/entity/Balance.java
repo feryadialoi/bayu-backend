@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "balances")
 @SQLDelete(sql = "UPDATE balances SET deleted = true WHERE id = ?")
