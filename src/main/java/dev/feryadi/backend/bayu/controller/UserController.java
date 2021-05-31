@@ -66,7 +66,7 @@ public class UserController extends BaseController {
     public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable(value = "userId") Long userId) throws Exception {
         return createResponse(
                 HttpStatus.OK,
-                "User updated successfully",
+                "Get user successfully",
                 userService.getUser(userId)
         );
     }
