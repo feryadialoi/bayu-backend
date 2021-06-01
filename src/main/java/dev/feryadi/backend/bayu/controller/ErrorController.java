@@ -22,6 +22,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ErrorController extends ErrorBaseController {
+
+    @ExceptionHandler(value = {PinNotFoundException.class})
+    public ResponseEntity<ApiResponseError<String>> pinNotFound(PinNotFoundException pinNotFoundException) {
+        return createResponse(HttpStatus.NOT_FOUND, "", pinNotFoundException.getMessage());
+    }
+
     @ExceptionHandler(value = {InsufficientBalanceException.class})
     public ResponseEntity<ApiResponseError<String>> insufficientBalance(InsufficientBalanceException insufficientBalanceException) {
         return createResponse(HttpStatus.BAD_REQUEST, "", insufficientBalanceException.getMessage());
@@ -63,37 +69,27 @@ public class ErrorController extends ErrorBaseController {
     }
 
     @ExceptionHandler(value = {IllegalStateException.class})
-    public ResponseEntity<ApiResponseError<String>> illegalState(
-            IllegalStateException illegalStateException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> illegalState(IllegalStateException illegalStateException) {
         return createResponse(HttpStatus.BAD_REQUEST, "", illegalStateException.getMessage());
     }
 
     @ExceptionHandler(value = {ForbiddenAccessException.class})
-    public ResponseEntity<ApiResponseError<String>> forbiddenAccess(
-            ForbiddenAccessException forbiddenAccessException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> forbiddenAccess(ForbiddenAccessException forbiddenAccessException) {
         return createResponse(HttpStatus.FORBIDDEN, "", forbiddenAccessException.getMessage());
     }
 
     @ExceptionHandler(value = {AlreadyExistException.class})
-    public ResponseEntity<ApiResponseError<String>> alreadyExist(
-            AlreadyExistException alreadyExistException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> alreadyExist(AlreadyExistException alreadyExistException) {
         return createResponse(HttpStatus.CONFLICT, "", alreadyExistException.getMessage());
     }
 
     @ExceptionHandler(value = {ValidationNotValidException.class})
-    public ResponseEntity<ApiResponseError<List<NotValidDetail>>> validationNotValid(
-            ValidationNotValidException validationNotValidException
-    ) {
+    public ResponseEntity<ApiResponseError<List<NotValidDetail>>> validationNotValid(ValidationNotValidException validationNotValidException) {
         return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, "", validationNotValidException.getNotValidDetails());
     }
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
-    public ResponseEntity<ApiResponseError<String>> constraintViolation(
-            ConstraintViolationException constraintViolationException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> constraintViolation(ConstraintViolationException constraintViolationException) {
         return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, "", constraintViolationException.getMessage());
     }
 
@@ -128,23 +124,17 @@ public class ErrorController extends ErrorBaseController {
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ApiResponseError<String>> sqlIntegrityConstraintViolation(
-            SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> sqlIntegrityConstraintViolation(SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
         return createResponse(HttpStatus.CONFLICT, "", sqlIntegrityConstraintViolationException.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiResponseError<String>> httpMessageNotReadable(
-            HttpMessageNotReadableException httpMessageNotReadableException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> httpMessageNotReadable(HttpMessageNotReadableException httpMessageNotReadableException) {
         return createResponse(HttpStatus.BAD_REQUEST, "", httpMessageNotReadableException.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiResponseError<String>> notFound(
-            NotFoundException notFoundException
-    ) {
+    public ResponseEntity<ApiResponseError<String>> notFound(NotFoundException notFoundException) {
         return createResponse(HttpStatus.NOT_FOUND, "", notFoundException.getMessage());
     }
 }
