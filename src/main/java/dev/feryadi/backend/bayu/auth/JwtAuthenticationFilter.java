@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.feryadi.backend.bayu.model.request.LoginRequest;
 import dev.feryadi.backend.bayu.model.response.ApiResponse;
 import dev.feryadi.backend.bayu.model.response.LoginResponse;
+import dev.feryadi.backend.bayu.model.response.UserResponse;
 import dev.feryadi.backend.bayu.utils.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -77,7 +78,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setStatus(HttpStatus.OK.value());
 
-        LoginResponse loginResponse = new LoginResponse(token);
+        LoginResponse loginResponse = LoginResponse.builder()
+                .token(token)
+                .userId(id)
+                .build();
 
         ApiResponse<LoginResponse> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),

@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginResponse {
-    private String token;
-    private Long userId;
+public class PinResponse {
+    private Long id;
+    private String pin;
 }
-
-

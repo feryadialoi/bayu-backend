@@ -7,6 +7,7 @@ import dev.feryadi.backend.bayu.repository.UserRepository;
 import dev.feryadi.backend.bayu.service.UserService;
 import dev.feryadi.backend.bayu.utils.ValidationUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -67,6 +68,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Disabled
     void getUser() throws Exception {
         String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9" +
                 "." +

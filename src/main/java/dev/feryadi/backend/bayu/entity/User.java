@@ -59,4 +59,7 @@ public class User extends AuditingEntity{
             }
     )
     private Role role;
+
+    @OneToOne(mappedBy = "user")
+    private Pin pin;
 }
