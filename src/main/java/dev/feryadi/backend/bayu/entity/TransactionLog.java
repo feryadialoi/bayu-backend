@@ -41,4 +41,15 @@ public class TransactionLog extends AuditingEntity {
 
     @Column(name = "description", columnDefinition = "text")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", columnDefinition = "ENUM('SUCCESS','FAIL')")
+    private TransactionLogStatus status;
+
+    @Column(name = "status_detail")
+    private String statusDetail;
+
+    public enum TransactionLogStatus {
+        SUCCESS, FAIL
+    }
 }
