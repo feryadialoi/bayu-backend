@@ -4,10 +4,7 @@ import dev.feryadi.backend.bayu.auth.ApplicationUserDetails;
 import dev.feryadi.backend.bayu.command.transfer.TransferCommand;
 import dev.feryadi.backend.bayu.entity.Mutation;
 import dev.feryadi.backend.bayu.entity.Wallet;
-import dev.feryadi.backend.bayu.exception.InsufficientBalanceException;
-import dev.feryadi.backend.bayu.exception.TransferToOwnWalletException;
-import dev.feryadi.backend.bayu.exception.WalletNotFoundException;
-import dev.feryadi.backend.bayu.exception.ZeroAmountTransferException;
+import dev.feryadi.backend.bayu.exception.*;
 import dev.feryadi.backend.bayu.model.request.LogTransactionRequest;
 import dev.feryadi.backend.bayu.model.request.TransferRequest;
 import dev.feryadi.backend.bayu.model.request.command.TransferCommandRequest;
@@ -38,87 +35,127 @@ public class TransferCommandImpl implements TransferCommand {
     @Override
     public TransferResponse execute(TransferCommandRequest transferCommandRequest) {
 
-        transactionLogService.logTransactionStart(LogTransactionRequest.builder()
-                .originWalletAddress(transferCommandRequest.getTransferRequest().getOriginWalletAddress())
-                .destinationWalletAddress(transferCommandRequest.getTransferRequest().getDestinationWalletAddress())
-                .amount(transferCommandRequest.getTransferRequest().getAmount())
-                .description("START - " + transferCommandRequest.getTransferRequest().getDescription())
-                .build());
-
         TransferRequest transferRequest = transferCommandRequest.getTransferRequest();
 
-
         if (transferRequest.getOriginWalletAddress().equals(transferRequest.getDestinationWalletAddress())) {
-            log.info("cannot transfer to its own wallet");
-            throw new TransferToOwnWalletException("cannot transfer to its own wallet");
+            TransferToOwnWalletException transferToOwnWalletException = new TransferToOwnWalletException("cannot transfer to its own wallet");
+            transactionLogFail(transferRequest, transferToOwnWalletException);
+            throw transferToOwnWalletException;
         }
+
+        if (transferRequest.getAmount().compareTo(new BigDecimal(0)) <= 0) {
+            ZeroAmountTransferException zeroAmountTransferException = new ZeroAmountTransferException("0 amount transfer is not allowed");
+            transactionLogFail(transferRequest, zeroAmountTransferException);
+            throw zeroAmountTransferException;
+        }
+
+        Wallet originWallet = getOriginWallet(transferRequest);
+        Wallet destinationWallet = getDestinationWallet(transferRequest);
 
         ApplicationUserDetails userDetails = (ApplicationUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Wallet originWallet = getOriginWallet(transferRequest.getOriginWalletAddress());
-        Wallet destinationWallet = getDestinationWallet(transferRequest.getDestinationWalletAddress());
-
-        if (transferRequest.getAmount().compareTo(new BigDecimal(0)) <= 0) {
-            log.info("0 amount transfer is not allowed");
-            throw new ZeroAmountTransferException("0 amount transfer is not allowed");
-        }
-
-        if (originWallet == null) {
-            log.info("origin wallet not found");
-            throw new WalletNotFoundException("origin wallet not found");
-        }
-
-        if (destinationWallet == null) {
-            log.info("destination wallet not found");
-            throw new WalletNotFoundException("destination wallet not found");
-        }
-
         if (!userDetails.getId().equals(originWallet.getUser().getId())) {
-            log.info("user and wallet not match");
-            throw new IllegalStateException("transfer not allowed");
+            UserAndWalletNotMatchException userAndWalletNotMatchException = new UserAndWalletNotMatchException("transfer not allowed, user and wallet not match");
+            transactionLogFail(transferRequest, userAndWalletNotMatchException);
+            throw userAndWalletNotMatchException;
         }
 
         if (originWallet.getBalance().getBalance().compareTo(transferRequest.getAmount()) < 0) {
-            log.info("Insufficient balance");
-            throw new InsufficientBalanceException("Insufficient balance");
+            InsufficientBalanceException insufficientBalanceException = new InsufficientBalanceException("Insufficient balance");
+            transactionLogFail(transferRequest, insufficientBalanceException);
+            throw insufficientBalanceException;
         }
 
         // subtract origin wallet balance
-        originWallet.getBalance().setBalance(
-                originWallet.getBalance().getBalance().subtract(transferRequest.getAmount())
-        );
-        walletRepository.save(originWallet);
+        BigDecimal originWalletBalance = originWallet.getBalance().getBalance();
+        BigDecimal updatedOriginWalletBalance = originWallet.getBalance()
+                .getBalance()
+                .subtract(transferRequest.getAmount());
+        originWallet.getBalance()
+                .setBalance(updatedOriginWalletBalance);
 
         // add destination wallet balance
-        destinationWallet.getBalance().setBalance(
-                destinationWallet.getBalance().getBalance().add(transferRequest.getAmount())
+        BigDecimal destinationWalletBalance = destinationWallet.getBalance().getBalance();
+        BigDecimal updatedDestinationWalletBalance = destinationWallet.getBalance()
+                .getBalance()
+                .add(transferRequest.getAmount());
+        destinationWallet.getBalance()
+                .setBalance(updatedDestinationWalletBalance);
+
+        // mutation credit of origin wallet
+        Mutation mutationCredit = Mutation.builder()
+                .amount(transferRequest.getAmount())
+                .originWallet(originWallet)
+                .destinationWallet(destinationWallet)
+                .description(transferRequest.getDescription())
+                .initialBalance(originWalletBalance)
+                .balance(updatedOriginWalletBalance)
+                .type(Mutation.MutationType.CREDIT)
+                .build();
+
+        mutationCredit = mutationRepository.save(mutationCredit);
+
+        // mutation debit of destination wallet
+        Mutation mutationDebit = Mutation.builder()
+                .amount(transferRequest.getAmount())
+                .originWallet(destinationWallet)
+                .destinationWallet(originWallet)
+                .description(transferRequest.getDescription())
+                .initialBalance(destinationWalletBalance)
+                .balance(updatedDestinationWalletBalance)
+                .type(Mutation.MutationType.DEBIT)
+                .build();
+
+        mutationDebit = mutationRepository.save(mutationDebit);
+
+        transactionLogSuccess(transferRequest);
+
+        return transferMapper.mapTransferToTransferResponse(mutationCredit);
+    }
+
+    private Wallet getOriginWallet(TransferRequest transferRequest) {
+        return walletRepository.findByAddress(transferRequest.getOriginWalletAddress())
+                .orElseThrow(() -> {
+                    WalletNotFoundException walletNotFoundException = new WalletNotFoundException("origin wallet not found");
+                    transactionLogFail(transferRequest, walletNotFoundException);
+                    throw walletNotFoundException;
+                });
+    }
+
+    private Wallet getDestinationWallet(TransferRequest transferRequest) {
+        return walletRepository.findByAddress(transferRequest.getDestinationWalletAddress())
+                .orElseThrow(() -> {
+                    WalletNotFoundException walletNotFoundException = new WalletNotFoundException("destination wallet not found");
+                    transactionLogFail(transferRequest, walletNotFoundException);
+                    throw walletNotFoundException;
+                });
+    }
+
+    private void transactionLogSuccess(TransferRequest transferRequest) {
+        log.info("transfer transaction success");
+        transactionLogService.logTransactionSuccess(
+                LogTransactionRequest.builder()
+                        .amount(transferRequest.getAmount())
+                        .description(transferRequest.getDescription())
+                        .originWalletAddress(transferRequest.getOriginWalletAddress())
+                        .destinationWalletAddress(transferRequest.getDestinationWalletAddress())
+                        .status(LogTransactionRequest.Status.SUCCESS)
+                        .statusDetail("SUCCESS")
+                        .build()
         );
-        walletRepository.save(destinationWallet);
-
-        // save mutation
-        Mutation mutation = new Mutation();
-        mutation.setAmount(transferRequest.getAmount());
-        mutation.setOriginWallet(originWallet);
-        mutation.setDestinationWallet(destinationWallet);
-        mutation.setDescription(transferRequest.getDescription());
-        mutationRepository.save(mutation);
-
-
-        transactionLogService.logTransactionSuccess(LogTransactionRequest.builder()
-                .originWalletAddress(transferCommandRequest.getTransferRequest().getOriginWalletAddress())
-                .destinationWalletAddress(transferCommandRequest.getTransferRequest().getDestinationWalletAddress())
-                .amount(transferCommandRequest.getTransferRequest().getAmount())
-                .description("SUCCESS - " + transferCommandRequest.getTransferRequest().getDescription())
-                .build());
-
-        return transferMapper.mapTransferToTransferResponse(mutation);
     }
 
-    private Wallet getOriginWallet(String originWalletAddress) {
-        return walletRepository.findByAddress(originWalletAddress).orElse(null);
-    }
-
-    private Wallet getDestinationWallet(String destinationWalletAddress) {
-        return walletRepository.findByAddress(destinationWalletAddress).orElse(null);
+    private void transactionLogFail(TransferRequest transferRequest, RuntimeException exception) {
+        log.error(exception.getMessage());
+        transactionLogService.logTransactionFailed(
+                LogTransactionRequest.builder()
+                        .amount(transferRequest.getAmount())
+                        .description(transferRequest.getDescription())
+                        .originWalletAddress(transferRequest.getOriginWalletAddress())
+                        .destinationWalletAddress(transferRequest.getDestinationWalletAddress())
+                        .status(LogTransactionRequest.Status.FAIL)
+                        .statusDetail(exception.getClass().getName() + " - " + exception.getMessage())
+                        .build()
+        );
     }
 }
