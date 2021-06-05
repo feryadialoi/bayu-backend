@@ -16,4 +16,10 @@ public class LogTransactionRequest {
     private String destinationWalletAddress;
     private BigDecimal amount;
     private String description;
+    private Status status;
+    private String statusDetail;
+
+    public enum Status {
+        SUCCESS, FAIL
+    }
 }

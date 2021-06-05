@@ -14,13 +14,14 @@ public class TransactionLogServiceImpl implements TransactionLogService {
 
     private final ServiceExecutor serviceExecutor;
 
+
     @Override
-    public void logTransactionStart(LogTransactionRequest logTransactionRequest) {
+    public void logTransactionSuccess(LogTransactionRequest logTransactionRequest) {
         serviceExecutor.execute(LogTransactionCommand.class, new LogTransactionCommandRequest(logTransactionRequest));
     }
 
     @Override
-    public void logTransactionSuccess(LogTransactionRequest logTransactionRequest) {
+    public void logTransactionFailed(LogTransactionRequest logTransactionRequest) {
         serviceExecutor.execute(LogTransactionCommand.class, new LogTransactionCommandRequest(logTransactionRequest));
     }
 }
