@@ -2,6 +2,7 @@ package dev.feryadi.backend.bayu.commandimpl.transactionlog;
 
 import dev.feryadi.backend.bayu.command.transactionlog.LogTransactionCommand;
 import dev.feryadi.backend.bayu.entity.TransactionLog;
+import dev.feryadi.backend.bayu.model.request.LogTransactionRequest;
 import dev.feryadi.backend.bayu.model.request.command.LogTransactionCommandRequest;
 import dev.feryadi.backend.bayu.model.response.LogTransactionResponse;
 import dev.feryadi.backend.bayu.repository.TransactionLogRepository;
@@ -21,13 +22,34 @@ public class LogTransactionCommandImpl implements LogTransactionCommand {
     public LogTransactionResponse execute(LogTransactionCommandRequest request) {
 
         TransactionLog transactionLog = TransactionLog.builder()
-                .originWalletAddress(request.getLogTransactionRequest().getOriginWalletAddress())
-                .destinationWalletAddress(request.getLogTransactionRequest().getDestinationWalletAddress())
-                .amount(request.getLogTransactionRequest().getAmount())
-                .description(request.getLogTransactionRequest().getDescription())
+                .originWalletAddress(request
+                        .getLogTransactionRequest()
+                        .getOriginWalletAddress()
+                )
+                .destinationWalletAddress(request
+                        .getLogTransactionRequest()
+                        .getDestinationWalletAddress()
+                )
+                .amount(request
+                        .getLogTransactionRequest()
+                        .getAmount()
+                )
+                .description(request
+                        .getLogTransactionRequest()
+                        .getDescription()
+                )
+                .status(
+                        request.getLogTransactionRequest().getStatus() == LogTransactionRequest.Status.SUCCESS
+                                ? TransactionLog.TransactionLogStatus.SUCCESS
+                                : TransactionLog.TransactionLogStatus.FAIL
+                )
+                .statusDetail(request
+                        .getLogTransactionRequest()
+                        .getStatusDetail()
+                )
                 .build();
 
-        transactionLogRepository.save(transactionLog);
+        transactionLog = transactionLogRepository.save(transactionLog);
 
         return LogTransactionResponse.builder()
                 .description(transactionLog.getDescription())
