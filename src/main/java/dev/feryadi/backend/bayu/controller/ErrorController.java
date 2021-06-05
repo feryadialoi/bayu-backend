@@ -23,6 +23,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ErrorController extends ErrorBaseController {
 
+    @ExceptionHandler(value = {UserAndWalletNotMatchException.class})
+    public ResponseEntity<ApiResponseError<String>> userAndWalletNotMatch(UserAndWalletNotMatchException userAndWalletNotMatchException) {
+        return createResponse(HttpStatus.BAD_REQUEST, "", userAndWalletNotMatchException.getMessage());
+    }
+
     @ExceptionHandler(value = {PinNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> pinNotFound(PinNotFoundException pinNotFoundException) {
         return createResponse(HttpStatus.NOT_FOUND, "", pinNotFoundException.getMessage());
