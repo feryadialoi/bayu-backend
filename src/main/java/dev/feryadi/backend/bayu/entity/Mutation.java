@@ -33,6 +33,16 @@ public class Mutation extends AuditingEntity {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "initial_balance")
+    private BigDecimal initialBalance;
+
+    @Column(name = "balance")
+    private BigDecimal balance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "ENUM('DEBIT','CREDIT')")
+    private MutationType type;
+
     @ManyToOne
     @JoinColumn(name = "origin_wallet_id", referencedColumnName = "id")
     private Wallet originWallet;
@@ -43,4 +53,8 @@ public class Mutation extends AuditingEntity {
 
     @Column(name = "description", columnDefinition = "text")
     private String description;
+
+    public enum MutationType {
+        DEBIT, CREDIT
+    }
 }
