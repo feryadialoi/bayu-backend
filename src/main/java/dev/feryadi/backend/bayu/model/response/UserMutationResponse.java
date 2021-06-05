@@ -18,5 +18,8 @@ public class UserMutationResponse {
     private MutationWalletResponse destinationWallet;
     private BigDecimal amount;
     private String description;
+    private BigDecimal initialBalance;
+    private BigDecimal balance;
+    private String type;
     private LocalDateTime createdDate;
 }

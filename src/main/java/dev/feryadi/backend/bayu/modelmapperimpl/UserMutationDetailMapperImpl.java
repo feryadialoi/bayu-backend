@@ -21,6 +21,9 @@ public class UserMutationDetailMapperImpl implements UserMutationDetailMapper {
                 .destinationWallet(userMutationWalletDetailMapper.mapWalletToUserMutationWalletDetailResponse(mutation.getDestinationWallet()))
                 .amount(mutation.getAmount())
                 .description(mutation.getDescription())
+                .initialBalance(mutation.getInitialBalance())
+                .balance(mutation.getBalance())
+                .type(mutation.getType().name())
                 .createdDate(mutation.getCreatedDate())
                 .build();
     }
