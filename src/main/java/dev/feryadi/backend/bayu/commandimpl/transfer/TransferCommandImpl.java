@@ -82,31 +82,34 @@ public class TransferCommandImpl implements TransferCommand {
         destinationWallet.getBalance()
                 .setBalance(updatedDestinationWalletBalance);
 
-        // mutation credit of origin wallet
-        Mutation mutationCredit = Mutation.builder()
+        // mutation debit of destination wallet
+        Mutation mutationDebit = Mutation.builder()
                 .amount(transferRequest.getAmount())
                 .originWallet(originWallet)
                 .destinationWallet(destinationWallet)
                 .description(transferRequest.getDescription())
                 .initialBalance(originWalletBalance)
                 .balance(updatedOriginWalletBalance)
-                .type(Mutation.MutationType.CREDIT)
+                .type(Mutation.MutationType.DEBIT)
                 .build();
 
-        mutationCredit = mutationRepository.save(mutationCredit);
+        mutationDebit = mutationRepository.save(mutationDebit);
 
-        // mutation debit of destination wallet
-        Mutation mutationDebit = Mutation.builder()
+        // mutation credit of origin wallet
+        Mutation mutationCredit = Mutation.builder()
                 .amount(transferRequest.getAmount())
                 .originWallet(destinationWallet)
                 .destinationWallet(originWallet)
                 .description(transferRequest.getDescription())
                 .initialBalance(destinationWalletBalance)
                 .balance(updatedDestinationWalletBalance)
-                .type(Mutation.MutationType.DEBIT)
+                .type(Mutation.MutationType.CREDIT)
                 .build();
 
-        mutationDebit = mutationRepository.save(mutationDebit);
+        mutationCredit = mutationRepository.save(mutationCredit);
+
+
+
 
         transactionLogSuccess(transferRequest);
 
