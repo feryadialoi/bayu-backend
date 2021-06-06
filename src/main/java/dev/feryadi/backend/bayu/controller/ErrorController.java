@@ -4,6 +4,7 @@ import dev.feryadi.backend.bayu.exception.*;
 import dev.feryadi.backend.bayu.model.NotValidDetail;
 import dev.feryadi.backend.bayu.model.response.ApiResponseError;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,6 +23,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ErrorController extends ErrorBaseController {
+
+    @ExceptionHandler(value = {PropertyReferenceException.class})
+    public ResponseEntity<ApiResponseError<String>> propertyReference(PropertyReferenceException propertyReferenceException) {
+        return createResponse(HttpStatus.BAD_REQUEST, "", propertyReferenceException.getMessage());
+    }
 
     @ExceptionHandler(value = {UserAndWalletNotMatchException.class})
     public ResponseEntity<ApiResponseError<String>> userAndWalletNotMatch(UserAndWalletNotMatchException userAndWalletNotMatchException) {
