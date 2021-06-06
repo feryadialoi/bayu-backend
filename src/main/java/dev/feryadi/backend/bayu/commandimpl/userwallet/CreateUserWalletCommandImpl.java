@@ -14,6 +14,7 @@ import dev.feryadi.backend.bayu.repository.UserRepository;
 import dev.feryadi.backend.bayu.repository.WalletRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class CreateUserWalletCommandImpl implements CreateUserWalletCommand {
     private final BalanceRepository balanceRepository;
     private final WalletBalanceMapper walletBalanceMapper;
 
+    @Transactional
     @Override
     public WalletBalanceResponse execute(CreateUserWalletCommandRequest request) {
 
@@ -38,6 +40,7 @@ public class CreateUserWalletCommandImpl implements CreateUserWalletCommand {
             User user = optionalUser.get();
 
             if (user.getWallet() == null) {
+
                 Wallet wallet = new Wallet();
                 wallet.setAddress(UUID.randomUUID().toString());
                 wallet.setUser(user);
@@ -45,10 +48,10 @@ public class CreateUserWalletCommandImpl implements CreateUserWalletCommand {
 
 
                 Balance balance = new Balance();
-                balance.setBalance(new BigDecimal(1000000));
-                balance.setInitialBalance(new BigDecimal(1000000));
+                balance.setBalance(new BigDecimal("1000000"));
+                balance.setInitialBalance(new BigDecimal("1000000"));
                 balance.setWallet(wallet);
-                balanceRepository.save(balance);
+                balance = balanceRepository.save(balance);
 
                 wallet.setBalance(balance);
 
