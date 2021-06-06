@@ -25,10 +25,7 @@ public class GetWalletsCommandImpl implements GetWalletsCommand {
 
     @Override
     public List<WalletBalanceResponse> execute(GetWalletsCommandRequest request) {
-        ListWalletRequest listWalletRequest = request.getListWalletRequest();
-
-        PageRequest pageRequest = PageRequest.of(listWalletRequest.getPage(), listWalletRequest.getSize());
-        Page<Wallet> pageOfWallet = walletRepository.findAll(pageRequest);
+        Page<Wallet> pageOfWallet = walletRepository.findAll(request.getListWalletRequest().getPageable());
         List<Wallet> wallets = pageOfWallet.get().collect(Collectors.toList());
 
         return wallets.stream().map(walletBalanceMapper::mapWalletToWalletBalanceResponse).collect(Collectors.toList());
