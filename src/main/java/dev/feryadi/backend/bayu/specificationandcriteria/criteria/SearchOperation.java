@@ -1,4 +1,4 @@
-package dev.feryadi.backend.bayu.specificationandcriteria;
+package dev.feryadi.backend.bayu.specificationandcriteria.criteria;
 
 public enum SearchOperation {
     GREATER_THAN,

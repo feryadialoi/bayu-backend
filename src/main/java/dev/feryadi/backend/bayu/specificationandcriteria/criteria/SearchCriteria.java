@@ -1,4 +1,4 @@
-package dev.feryadi.backend.bayu.specificationandcriteria;
+package dev.feryadi.backend.bayu.specificationandcriteria.criteria;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
