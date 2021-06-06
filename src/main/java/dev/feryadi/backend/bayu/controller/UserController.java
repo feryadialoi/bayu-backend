@@ -8,6 +8,7 @@ import dev.feryadi.backend.bayu.model.response.UserResponse;
 import dev.feryadi.backend.bayu.security.annotation.IsAdmin;
 import dev.feryadi.backend.bayu.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,9 +26,7 @@ public class UserController extends BaseController {
     @IsAdmin
     @GetMapping(value = {"/api/v1/users"})
     public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers(
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "sort", required = false) String sort,
+            Pageable pageable,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "username", required = false) String username,
             @RequestParam(value = "email", required = false) String email,
@@ -35,9 +34,7 @@ public class UserController extends BaseController {
             @RequestParam(value = "roleName", required = false) String roleName
     ) {
         ListUserRequest listUserRequest = ListUserRequest.builder()
-                .size(size)
-                .page(page)
-                .sort(sort)
+                .pageable(pageable)
                 .name(name)
                 .username(username)
                 .email(email)
