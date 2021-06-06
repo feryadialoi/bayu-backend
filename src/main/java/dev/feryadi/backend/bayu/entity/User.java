@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
