@@ -55,6 +55,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         } catch (Exception e) {
             log.error("doFilterInternal.error, " + e);
+            e.printStackTrace();
             handlerExceptionResolver.resolveException(request, response, null, e);
         }
     }
