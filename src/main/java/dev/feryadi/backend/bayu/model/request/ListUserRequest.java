@@ -4,16 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ListUserRequest {
-    private Integer size;
-    private Integer page;
-
-    private String sort;
+    private Pageable pageable;
 
     private String name;
     private String username;
