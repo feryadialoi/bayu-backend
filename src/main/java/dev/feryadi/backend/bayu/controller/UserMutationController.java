@@ -6,7 +6,7 @@ import dev.feryadi.backend.bayu.model.response.UserMutationDetailResponse;
 import dev.feryadi.backend.bayu.model.response.UserMutationResponse;
 import dev.feryadi.backend.bayu.service.UserMutationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,15 +27,13 @@ public class UserMutationController extends BaseController {
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
     @GetMapping(value = {"/api/v1/users/{userId}/mutations"})
     public ResponseEntity<ApiResponse<List<UserMutationResponse>>> getUserMutations(
+            Pageable pageable,
             @PathVariable(value = "userId") Long userId,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "endDate", required = false) String endDate
     ) {
         ListUserMutationRequest listUserMutationRequest = ListUserMutationRequest.builder()
-                .page(page)
-                .size(size)
+                .pageable(pageable)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
