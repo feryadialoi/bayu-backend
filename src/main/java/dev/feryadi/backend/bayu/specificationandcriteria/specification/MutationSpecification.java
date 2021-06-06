@@ -15,11 +15,17 @@ public class MutationSpecification {
     }
 
     public static Specification<Mutation> destinationWalletIs(Wallet wallet) {
-        return (root, criteriaQuery, criteriaBuilder) -> null;
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(
+                root.get("destinationWallet"),
+                wallet
+        );
     }
 
     public static Specification<Mutation> typeIs(Mutation.MutationType type) {
-        return (root, criteriaQuery, criteriaBuilder) -> null;
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(
+                root.get("type"),
+                type
+        );
     }
 
 }

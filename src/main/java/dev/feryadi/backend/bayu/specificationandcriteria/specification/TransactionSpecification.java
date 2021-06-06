@@ -6,6 +6,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class TransactionSpecification {
     public static Specification<Transaction> userIs(User user) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("user"), user);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(
+                root.get("user"),
+                user
+        );
     }
 }
