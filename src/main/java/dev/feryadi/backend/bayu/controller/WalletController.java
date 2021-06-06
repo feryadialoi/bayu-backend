@@ -6,6 +6,7 @@ import dev.feryadi.backend.bayu.model.response.WalletBalanceResponse;
 import dev.feryadi.backend.bayu.service.WalletService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +25,10 @@ public class WalletController extends BaseController {
 
     @GetMapping(value = "/api/v1/wallets")
     public ResponseEntity<ApiResponse<List<WalletBalanceResponse>>> getWallets(
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @RequestParam(value = "page", defaultValue = "0") Integer page
+            Pageable pageable
     ) {
         ListWalletRequest listWalletRequest = ListWalletRequest.builder()
-                .page(page)
-                .size(size)
+                .pageable(pageable)
                 .build();
 
         return createResponse(
