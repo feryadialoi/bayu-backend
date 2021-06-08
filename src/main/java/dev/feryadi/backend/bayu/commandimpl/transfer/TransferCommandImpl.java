@@ -84,7 +84,7 @@ public class TransferCommandImpl implements TransferCommand {
 
         // mutation debit of destination wallet
         Mutation mutationDebit = Mutation.builder()
-                .amount(transferRequest.getAmount())
+                .amount(transferRequest.getAmount().negate())
                 .originWallet(originWallet)
                 .destinationWallet(destinationWallet)
                 .description(transferRequest.getDescription())
@@ -108,12 +108,14 @@ public class TransferCommandImpl implements TransferCommand {
 
         mutationCredit = mutationRepository.save(mutationCredit);
 
-
-
-
         transactionLogSuccess(transferRequest);
 
-        return transferMapper.mapTransferToTransferResponse(mutationCredit);
+//        TransferResponse transferResponse = TransferResponse.builder()
+//                .amount(transferRequest.getAmount())
+//                .createdDate()
+//                .build();
+
+        return transferMapper.mapTransferToTransferResponse(mutationDebit);
     }
 
     private Wallet getOriginWallet(TransferRequest transferRequest) {

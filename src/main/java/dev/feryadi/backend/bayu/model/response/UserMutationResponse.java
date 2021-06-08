@@ -1,5 +1,6 @@
 package dev.feryadi.backend.bayu.model.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class UserMutationResponse {
     private BigDecimal initialBalance;
     private BigDecimal balance;
     private String type;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 }
