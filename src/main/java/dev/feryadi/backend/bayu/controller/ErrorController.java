@@ -89,10 +89,6 @@ public class ErrorController extends ErrorBaseController {
         return createResponse(HttpStatus.FORBIDDEN, "", forbiddenAccessException.getMessage());
     }
 
-    @ExceptionHandler(value = {AlreadyExistException.class})
-    public ResponseEntity<ApiResponseError<String>> alreadyExist(AlreadyExistException alreadyExistException) {
-        return createResponse(HttpStatus.CONFLICT, "", alreadyExistException.getMessage());
-    }
 
     @ExceptionHandler(value = {ValidationNotValidException.class})
     public ResponseEntity<ApiResponseError<List<NotValidDetail>>> validationNotValid(ValidationNotValidException validationNotValidException) {
@@ -142,10 +138,5 @@ public class ErrorController extends ErrorBaseController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponseError<String>> httpMessageNotReadable(HttpMessageNotReadableException httpMessageNotReadableException) {
         return createResponse(HttpStatus.BAD_REQUEST, "", httpMessageNotReadableException.getMessage());
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiResponseError<String>> notFound(NotFoundException notFoundException) {
-        return createResponse(HttpStatus.NOT_FOUND, "", notFoundException.getMessage());
     }
 }
