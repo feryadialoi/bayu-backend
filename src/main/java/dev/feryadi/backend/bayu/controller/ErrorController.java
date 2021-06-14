@@ -105,15 +105,16 @@ public class ErrorController extends ErrorBaseController {
             MethodArgumentNotValidException methodArgumentNotValidException
     ) {
 
-        Map<String, String> error = new HashMap<>();
-        methodArgumentNotValidException
-                .getBindingResult()
-                .getAllErrors()
-                .forEach((e) -> {
-                    String fieldName = ((FieldError) e).getField();
-                    String errorMessage = e.getDefaultMessage();
-                    error.put(fieldName, errorMessage);
-                });
+//        Map<String, String> error = new HashMap<>();
+//        methodArgumentNotValidException
+//                .getBindingResult()
+//                .getAllErrors()
+//                .forEach((e) -> {
+//                    ViolationObjectError
+//                    String fieldName = ((FieldError) e).getField();
+//                    String errorMessage = e.getDefaultMessage();
+//                    error.put(fieldName, errorMessage);
+//                });
 
         List<NotValidDetail> notValidDetails = methodArgumentNotValidException
                 .getBindingResult()
@@ -121,8 +122,15 @@ public class ErrorController extends ErrorBaseController {
                 .stream()
                 .map(objectError -> {
                     NotValidDetail notValidDetail = new NotValidDetail();
-                    notValidDetail.setProperty(((FieldError) objectError).getField());
+
+                    if (objectError instanceof FieldError) {
+                        notValidDetail.setProperty(((FieldError) objectError).getField());
+                    } else {
+                        notValidDetail.setProperty(objectError.getObjectName());
+                    }
+
                     notValidDetail.setErrorMessage(objectError.getDefaultMessage());
+
                     return notValidDetail;
                 })
                 .collect(Collectors.toList());
