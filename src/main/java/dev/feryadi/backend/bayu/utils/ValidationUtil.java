@@ -2,7 +2,6 @@ package dev.feryadi.backend.bayu.utils;
 
 import dev.feryadi.backend.bayu.exception.ValidationNotValidException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
