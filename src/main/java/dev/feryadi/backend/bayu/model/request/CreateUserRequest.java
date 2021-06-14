@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @AllArgsConstructor
@@ -15,24 +17,26 @@ import javax.validation.constraints.NotBlank;
 @PasswordConfirmationMatchConstraint
 public class CreateUserRequest {
 
-    @NotBlank
+    @NotEmpty
     private String name;
 
-    @NotBlank
+    @NotEmpty
     @UsernameUniqueConstraint
     private String username;
 
-    @NotBlank
+    @NotEmpty
     @EmailUniqueConstraint
+    @Email
     private String email;
 
-    @NotBlank
+    @NotEmpty
     private String phone;
 
-    @NotBlank
+    @NotEmpty
+    @Min(value = 8)
     private String password;
 
-    @NotBlank
+    @NotEmpty
     private String confirmationPassword;
 
 }
