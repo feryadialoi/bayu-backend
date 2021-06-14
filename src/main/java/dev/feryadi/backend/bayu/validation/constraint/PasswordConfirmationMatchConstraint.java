@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = EmailUniqueConstraintValidator.class)
+@Constraint(validatedBy = PasswordConfirmationMatchConstraintValidator.class)
 public @interface PasswordConfirmationMatchConstraint {
     String message() default "Password not match";
 

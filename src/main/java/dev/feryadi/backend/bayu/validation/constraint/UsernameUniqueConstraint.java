@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = EmailUniqueConstraintValidator.class)
+@Constraint(validatedBy = UsernameUniqueConstraintValidator.class)
 public @interface UsernameUniqueConstraint {
     String message() default "Username already taken";
 
