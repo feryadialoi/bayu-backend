@@ -3,7 +3,6 @@ package dev.feryadi.backend.bayu.commandimpl.userwallet;
 import dev.feryadi.backend.bayu.command.userwallet.GetUserWalletCommand;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.Wallet;
-import dev.feryadi.backend.bayu.exception.NotFoundException;
 import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.exception.WalletNotFoundException;
 import dev.feryadi.backend.bayu.model.request.command.GetUserWalletCommandRequest;

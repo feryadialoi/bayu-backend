@@ -1,8 +1,6 @@
 package dev.feryadi.backend.bayu.commandimpl.user;
 
 import dev.feryadi.backend.bayu.command.user.UpdateUserCommand;
-import dev.feryadi.backend.bayu.entity.User;
-import dev.feryadi.backend.bayu.exception.NotFoundException;
 import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.model.request.UpdateUserRequest;
 import dev.feryadi.backend.bayu.model.request.command.UpdateUserCommandRequest;
@@ -11,8 +9,6 @@ import dev.feryadi.backend.bayu.modelmapper.UserMapper;
 import dev.feryadi.backend.bayu.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor

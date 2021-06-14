@@ -5,7 +5,6 @@ import dev.feryadi.backend.bayu.entity.Mutation;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.entity.Wallet;
 import dev.feryadi.backend.bayu.exception.MutationNotFoundException;
-import dev.feryadi.backend.bayu.exception.NotFoundException;
 import dev.feryadi.backend.bayu.exception.UserNotFoundException;
 import dev.feryadi.backend.bayu.model.request.GetUserMutationDetailCommandRequest;
 import dev.feryadi.backend.bayu.model.response.UserMutationDetailResponse;

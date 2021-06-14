@@ -2,8 +2,6 @@ package dev.feryadi.backend.bayu.commandimpl.user;
 
 import dev.feryadi.backend.bayu.command.user.CreateUserCommand;
 import dev.feryadi.backend.bayu.entity.User;
-import dev.feryadi.backend.bayu.entity.roleandpermission.Role;
-import dev.feryadi.backend.bayu.exception.NotFoundException;
 import dev.feryadi.backend.bayu.exception.RoleNotFoundException;
 import dev.feryadi.backend.bayu.model.request.CreateUserRequest;
 import dev.feryadi.backend.bayu.model.request.command.CreateUserCommandRequest;
@@ -14,8 +12,6 @@ import dev.feryadi.backend.bayu.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor

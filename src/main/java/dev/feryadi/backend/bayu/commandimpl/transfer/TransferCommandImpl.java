@@ -15,6 +15,7 @@ import dev.feryadi.backend.bayu.repository.WalletRepository;
 import dev.feryadi.backend.bayu.service.TransactionLogService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

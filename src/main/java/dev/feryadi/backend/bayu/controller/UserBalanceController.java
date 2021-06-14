@@ -1,11 +1,9 @@
 package dev.feryadi.backend.bayu.controller;
 
-import dev.feryadi.backend.bayu.exception.NotFoundException;
 import dev.feryadi.backend.bayu.model.response.ApiResponse;
 import dev.feryadi.backend.bayu.model.response.BalanceResponse;
 import dev.feryadi.backend.bayu.service.UserBalanceService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
