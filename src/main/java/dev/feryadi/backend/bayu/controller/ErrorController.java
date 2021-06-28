@@ -26,78 +26,78 @@ public class ErrorController extends ErrorBaseController {
 
     @ExceptionHandler(value = {PropertyReferenceException.class})
     public ResponseEntity<ApiResponseError<String>> propertyReference(PropertyReferenceException propertyReferenceException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", propertyReferenceException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, propertyReferenceException.getMessage());
     }
 
     @ExceptionHandler(value = {UserAndWalletNotMatchException.class})
     public ResponseEntity<ApiResponseError<String>> userAndWalletNotMatch(UserAndWalletNotMatchException userAndWalletNotMatchException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", userAndWalletNotMatchException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, userAndWalletNotMatchException.getMessage());
     }
 
     @ExceptionHandler(value = {PinNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> pinNotFound(PinNotFoundException pinNotFoundException) {
-        return createResponse(HttpStatus.NOT_FOUND, "", pinNotFoundException.getMessage());
+        return createResponse(HttpStatus.NOT_FOUND, pinNotFoundException.getMessage());
     }
 
     @ExceptionHandler(value = {InsufficientBalanceException.class})
     public ResponseEntity<ApiResponseError<String>> insufficientBalance(InsufficientBalanceException insufficientBalanceException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", insufficientBalanceException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, insufficientBalanceException.getMessage());
     }
 
     @ExceptionHandler(value = {TransferToOwnWalletException.class})
     public ResponseEntity<ApiResponseError<String>> transferToOwnWallet(TransferToOwnWalletException transferToOwnWalletException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", transferToOwnWalletException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, transferToOwnWalletException.getMessage());
     }
 
     @ExceptionHandler(value = {ZeroAmountTransferException.class})
     public ResponseEntity<ApiResponseError<String>> zeroAmountTransfer(ZeroAmountTransferException zeroAmountTransferException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", zeroAmountTransferException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, zeroAmountTransferException.getMessage());
     }
 
     @ExceptionHandler(value = {UserNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> userNotFound(UserNotFoundException userNotFoundException) {
-        return createResponse(HttpStatus.NOT_FOUND, "", userNotFoundException.getMessage());
+        return createResponse(HttpStatus.NOT_FOUND, userNotFoundException.getMessage());
     }
 
     @ExceptionHandler(value = {WalletNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> walletNotFound(WalletNotFoundException walletNotFoundException) {
-        return createResponse(HttpStatus.NOT_FOUND, "", walletNotFoundException.getMessage());
+        return createResponse(HttpStatus.NOT_FOUND, walletNotFoundException.getMessage());
     }
 
     @ExceptionHandler(value = {MutationNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> mutationNotFound(MutationNotFoundException mutationNotFoundException) {
-        return createResponse(HttpStatus.NOT_FOUND, "", mutationNotFoundException.getMessage());
+        return createResponse(HttpStatus.NOT_FOUND, mutationNotFoundException.getMessage());
     }
 
     @ExceptionHandler(value = {TransactionNotFoundException.class})
     public ResponseEntity<ApiResponseError<String>> transactionNotFound(TransactionNotFoundException transactionNotFoundException) {
-        return createResponse(HttpStatus.NOT_FOUND, "", transactionNotFoundException.getMessage());
+        return createResponse(HttpStatus.NOT_FOUND, transactionNotFoundException.getMessage());
     }
 
     @ExceptionHandler(value = {UserWalletAlreadyExistsException.class})
     public ResponseEntity<ApiResponseError<String>> userWalletAlreadyExists(UserWalletAlreadyExistsException userWalletAlreadyExistsException) {
-        return createResponse(HttpStatus.CONFLICT, "", userWalletAlreadyExistsException.getMessage());
+        return createResponse(HttpStatus.CONFLICT, userWalletAlreadyExistsException.getMessage());
     }
 
     @ExceptionHandler(value = {IllegalStateException.class})
     public ResponseEntity<ApiResponseError<String>> illegalState(IllegalStateException illegalStateException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", illegalStateException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, illegalStateException.getMessage());
     }
 
     @ExceptionHandler(value = {ForbiddenAccessException.class})
     public ResponseEntity<ApiResponseError<String>> forbiddenAccess(ForbiddenAccessException forbiddenAccessException) {
-        return createResponse(HttpStatus.FORBIDDEN, "", forbiddenAccessException.getMessage());
+        return createResponse(HttpStatus.FORBIDDEN, forbiddenAccessException.getMessage());
     }
 
 
     @ExceptionHandler(value = {ValidationNotValidException.class})
     public ResponseEntity<ApiResponseError<List<NotValidDetail>>> validationNotValid(ValidationNotValidException validationNotValidException) {
-        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, "", validationNotValidException.getNotValidDetails());
+        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, validationNotValidException.getNotValidDetails());
     }
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
     public ResponseEntity<ApiResponseError<String>> constraintViolation(ConstraintViolationException constraintViolationException) {
-        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, "", constraintViolationException.getMessage());
+        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, constraintViolationException.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -135,16 +135,16 @@ public class ErrorController extends ErrorBaseController {
                 })
                 .collect(Collectors.toList());
 
-        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, "", notValidDetails);
+        return createResponse(HttpStatus.UNPROCESSABLE_ENTITY, notValidDetails);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<ApiResponseError<String>> sqlIntegrityConstraintViolation(SQLIntegrityConstraintViolationException sqlIntegrityConstraintViolationException) {
-        return createResponse(HttpStatus.CONFLICT, "", sqlIntegrityConstraintViolationException.getMessage());
+        return createResponse(HttpStatus.CONFLICT, sqlIntegrityConstraintViolationException.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponseError<String>> httpMessageNotReadable(HttpMessageNotReadableException httpMessageNotReadableException) {
-        return createResponse(HttpStatus.BAD_REQUEST, "", httpMessageNotReadableException.getMessage());
+        return createResponse(HttpStatus.BAD_REQUEST, httpMessageNotReadableException.getMessage());
     }
 }

@@ -22,28 +22,21 @@ public class WalletController extends BaseController {
 
     private final WalletService walletService;
 
-
     @GetMapping(value = "/api/v1/wallets")
-    public ResponseEntity<ApiResponse<List<WalletBalanceResponse>>> getWallets(
-            Pageable pageable
-    ) {
+    public ResponseEntity<ApiResponse<List<WalletBalanceResponse>>> getWallets(Pageable pageable) {
         ListWalletRequest listWalletRequest = ListWalletRequest.builder()
                 .pageable(pageable)
                 .build();
 
         return createResponse(
-                HttpStatus.OK,
                 "Get wallets successfully",
                 walletService.getWallets(listWalletRequest)
         );
     }
 
-    @GetMapping(value = {"/api/v1/wallets/{walletId}"})
-    public ResponseEntity<ApiResponse<WalletBalanceResponse>> getWallet(
-            @PathVariable(value = "walletId") Long walletId
-    ) {
+    @GetMapping(value = "/api/v1/wallets/{walletId}")
+    public ResponseEntity<ApiResponse<WalletBalanceResponse>> getWallet(@PathVariable(value = "walletId") Long walletId) {
         return createResponse(
-                HttpStatus.NO_CONTENT,
                 "Get wallet successfully",
                 walletService.getWallet(walletId)
         );

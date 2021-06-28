@@ -44,12 +44,12 @@ public class Mutation extends AuditingEntity {
     private MutationType type;
 
     @ManyToOne
-    @JoinColumn(name = "origin_wallet_id", referencedColumnName = "id")
-    private Wallet originWallet;
+    @JoinColumn(name = "sender_wallet_id", referencedColumnName = "id")
+    private Wallet senderWallet;
 
     @ManyToOne
-    @JoinColumn(name = "destination_wallet_id", referencedColumnName = "id")
-    private Wallet destinationWallet;
+    @JoinColumn(name = "receiver_wallet_id", referencedColumnName = "id")
+    private Wallet receiverWallet;
 
     @Column(name = "description", columnDefinition = "text")
     private String description;

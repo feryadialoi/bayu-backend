@@ -18,12 +18,10 @@ public class UserRoleController extends BaseController {
 
     private final UserRoleService userRoleService;
 
-
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @GetMapping(value = {"/api/v1/users/{userId}/roles"})
+    @GetMapping(value = "/api/v1/users/{userId}/roles")
     public ResponseEntity<ApiResponse<UserRoleResponse>> getUserRole(@PathVariable(value = "userId") Long userId) {
         return createResponse(
-                HttpStatus.OK,
                 "Get user with role successfully",
                 userRoleService.getUserRole(userId)
         );

@@ -36,7 +36,7 @@ public class CreateUserCommandImpl implements CreateUserCommand {
                     user.setRole(role);
                     user.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
 
-                    userRepository.save(user);
+                    user = userRepository.save(user);
 
                     return userMapper.mapUserToUserResponse(user);
 

@@ -6,7 +6,6 @@ import dev.feryadi.backend.bayu.model.response.WalletResponse;
 import dev.feryadi.backend.bayu.modelmapper.TransferMapper;
 import dev.feryadi.backend.bayu.modelmapper.WalletMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,8 +16,8 @@ public class TransferMapperImpl implements TransferMapper {
 
     @Override
     public TransferResponse mapTransferToTransferResponse(Mutation mutation) {
-        WalletResponse originWalletResponse = walletMapper.mapWalletToWalletResponse(mutation.getOriginWallet());
-        WalletResponse destinationWalletResponse = walletMapper.mapWalletToWalletResponse(mutation.getDestinationWallet());
+        WalletResponse originWalletResponse = walletMapper.mapWalletToWalletResponse(mutation.getSenderWallet());
+        WalletResponse destinationWalletResponse = walletMapper.mapWalletToWalletResponse(mutation.getReceiverWallet());
 
         TransferResponse transferResponse = new TransferResponse();
         transferResponse.setOriginWallet(originWalletResponse);

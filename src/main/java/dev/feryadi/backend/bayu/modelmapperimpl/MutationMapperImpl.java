@@ -6,7 +6,6 @@ import dev.feryadi.backend.bayu.model.response.MutationWalletResponse;
 import dev.feryadi.backend.bayu.modelmapper.MutationMapper;
 import dev.feryadi.backend.bayu.modelmapper.MutationWalletMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,8 +17,8 @@ public class MutationMapperImpl implements MutationMapper {
 
     @Override
     public MutationResponse mapMutationToMutationResponse(Mutation mutation) {
-        MutationWalletResponse originWallet = mutationWalletMapper.mapWalletToMutationWallet(mutation.getOriginWallet());
-        MutationWalletResponse destinationWallet = mutationWalletMapper.mapWalletToMutationWallet(mutation.getDestinationWallet());
+        MutationWalletResponse originWallet = mutationWalletMapper.mapWalletToMutationWallet(mutation.getSenderWallet());
+        MutationWalletResponse destinationWallet = mutationWalletMapper.mapWalletToMutationWallet(mutation.getReceiverWallet());
 
         MutationResponse mutationResponse = new MutationResponse();
         mutationResponse.setOriginWallet(originWallet);

@@ -22,13 +22,13 @@ public class LogTransactionCommandImpl implements LogTransactionCommand {
     public LogTransactionResponse execute(LogTransactionCommandRequest request) {
 
         TransactionLog transactionLog = TransactionLog.builder()
-                .originWalletAddress(request
+                .senderWalletAddress(request
                         .getLogTransactionRequest()
-                        .getOriginWalletAddress()
+                        .getSenderWalletAddress()
                 )
-                .destinationWalletAddress(request
+                .receiverWalletAddress(request
                         .getLogTransactionRequest()
-                        .getDestinationWalletAddress()
+                        .getReceiverWalletAddress()
                 )
                 .amount(request
                         .getLogTransactionRequest()

@@ -33,11 +33,11 @@ public class TransactionLog extends AuditingEntity {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "origin_wallet_address")
-    private String originWalletAddress;
+    @Column(name = "sender_wallet_address")
+    private String senderWalletAddress;
 
-    @Column(name = "destination_wallet_address")
-    private String destinationWalletAddress;
+    @Column(name = "receiver_wallet_address")
+    private String receiverWalletAddress;
 
     @Column(name = "description", columnDefinition = "text")
     private String description;

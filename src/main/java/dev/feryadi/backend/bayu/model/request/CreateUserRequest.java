@@ -1,42 +1,44 @@
 package dev.feryadi.backend.bayu.model.request;
 
-import dev.feryadi.backend.bayu.validation.constraint.EmailUniqueConstraint;
-import dev.feryadi.backend.bayu.validation.constraint.PasswordConfirmationMatchConstraint;
-import dev.feryadi.backend.bayu.validation.constraint.UsernameUniqueConstraint;
+import dev.feryadi.backend.bayu.validation.constraint.EmailUnique;
+import dev.feryadi.backend.bayu.validation.constraint.PasswordConfirmationMatch;
+import dev.feryadi.backend.bayu.validation.constraint.UsernameUnique;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@PasswordConfirmationMatchConstraint
+@PasswordConfirmationMatch
 public class CreateUserRequest {
 
+    @NotNull
     @NotEmpty
     private String name;
 
+    @NotNull
     @NotEmpty
-    @UsernameUniqueConstraint
+    @UsernameUnique
     private String username;
 
     @NotEmpty
-    @EmailUniqueConstraint
+    @EmailUnique
     @Email
     private String email;
 
+    @NotNull
     @NotEmpty
     private String phone;
 
     @NotEmpty
-    @Min(value = 8)
+    @Size(min = 8)
     private String password;
 
+    @NotNull
     @NotEmpty
-    private String confirmationPassword;
+    private String confirmPassword;
 
 }

@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class LogTransactionRequest {
-    private String originWalletAddress;
-    private String destinationWalletAddress;
+    private String senderWalletAddress;
+    private String receiverWalletAddress;
     private BigDecimal amount;
     private String description;
     private Status status;

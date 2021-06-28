@@ -21,27 +21,25 @@ public class UserPinController extends BaseController {
     private final UserPinService userPinService;
 
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @PostMapping(value = {"/api/v1/users/{userId}/pins"})
+    @PostMapping(value = "/api/v1/users/{userId}/pins")
     public ResponseEntity<ApiResponse<PinResponse>> createUserPin(
             @PathVariable(value = "userId") Long userId,
             @RequestBody CreateUserPinRequest createUserPinRequest
     ) {
         return createResponse(
-                HttpStatus.OK,
                 "User pin created successfully",
                 userPinService.createUserPin(userId, createUserPinRequest)
         );
     }
 
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @PostMapping(value = {"/api/v1/users/{userId}/pins/{pinId}"})
+    @PostMapping(value = "/api/v1/users/{userId}/pins/{pinId}")
     public ResponseEntity<ApiResponse<PinResponse>> updateUserPin(
             @PathVariable(value = "userId") Long userId,
             @PathVariable(value = "pinId") Long pinId,
             @RequestBody UpdateUserPinRequest updateUserPinRequest
     ) {
         return createResponse(
-                HttpStatus.OK,
                 "User pin created successfully",
                 userPinService.updateUserPin(userId, pinId, updateUserPinRequest)
         );

@@ -1,10 +1,7 @@
 package dev.feryadi.backend.bayu.entity.roleandpermission;
 
 import dev.feryadi.backend.bayu.entity.AuditingEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -17,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "permissions")
 @SQLDelete(sql = "UPDATE permissions SET deleted = true WHERE id = ?")

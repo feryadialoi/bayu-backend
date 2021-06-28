@@ -10,7 +10,9 @@ import dev.feryadi.backend.bayu.service.ServiceExecutor;
 import dev.feryadi.backend.bayu.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -44,6 +46,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserByEmail(String email) {
         return serviceExecutor.execute(GetUserByEmailCommand.class, new GetUserByEmailCommandRequest(email));
+    }
+
+    @Override
+    public String updateUserPhoto(Long userId, MultipartFile photo) {
+        return serviceExecutor.execute(UpdateUserPhotoCommand.class, new UpdateUserPhotoCommandRequest(userId, photo));
+    }
+
+    @Override
+    public Resource getUserPhoto(Long useId) {
+        return serviceExecutor.execute(GetUserPhotoCommand.class, new GetUserPhotoCommandRequest(useId));
     }
 
 }

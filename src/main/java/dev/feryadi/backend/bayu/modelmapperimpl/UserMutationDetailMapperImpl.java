@@ -17,8 +17,8 @@ public class UserMutationDetailMapperImpl implements UserMutationDetailMapper {
     public UserMutationDetailResponse mapMutationToUserMutationDetailResponse(Mutation mutation) {
         return UserMutationDetailResponse.builder()
                 .id(mutation.getId())
-                .originWallet(userMutationWalletDetailMapper.mapWalletToUserMutationWalletDetailResponse(mutation.getOriginWallet()))
-                .destinationWallet(userMutationWalletDetailMapper.mapWalletToUserMutationWalletDetailResponse(mutation.getDestinationWallet()))
+                .originWallet(userMutationWalletDetailMapper.mapWalletToUserMutationWalletDetailResponse(mutation.getSenderWallet()))
+                .destinationWallet(userMutationWalletDetailMapper.mapWalletToUserMutationWalletDetailResponse(mutation.getReceiverWallet()))
                 .amount(mutation.getAmount())
                 .description(mutation.getDescription())
                 .initialBalance(mutation.getInitialBalance())

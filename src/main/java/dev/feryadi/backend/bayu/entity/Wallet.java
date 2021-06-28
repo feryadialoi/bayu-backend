@@ -39,8 +39,4 @@ public class Wallet extends AuditingEntity {
     @OneToOne(mappedBy = "wallet")
     private Balance balance;
 
-    @OneToMany(mappedBy = "wallet")
-    private List<Transaction> transactions;
-
-
 }

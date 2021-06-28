@@ -44,6 +44,9 @@ public class User extends AuditingEntity{
     @Column(name = "password")
     private String password;
 
+    @Column(name = "photo")
+    private String photo;
+
     @OneToOne(mappedBy = "user")
     private Wallet wallet;
 

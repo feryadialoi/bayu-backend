@@ -1,6 +1,6 @@
 package dev.feryadi.backend.bayu.controller;
 
-import dev.feryadi.backend.bayu.auth.JwtUtil;
+import dev.feryadi.backend.bayu.security.JwtUtil;
 import dev.feryadi.backend.bayu.entity.User;
 import dev.feryadi.backend.bayu.model.response.UserResponse;
 import dev.feryadi.backend.bayu.repository.UserRepository;

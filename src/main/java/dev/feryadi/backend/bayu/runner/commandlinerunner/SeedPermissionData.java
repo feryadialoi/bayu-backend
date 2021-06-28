@@ -8,6 +8,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
 
 @Order(value = 3)
 @Transactional
@@ -23,29 +25,18 @@ public class SeedPermissionData implements CommandLineRunner {
         seedPermissionData();
     }
 
-    private void seedPermissionData(){
-        if(permissionRepository.count() == 0) {
-            Permission getTransaction = new Permission();
-            getTransaction.setName("GET_TRANSACTION");
+    private void seedPermissionData() {
+        if (permissionRepository.count() == 0) {
 
-            Permission getTransactions = new Permission();
-            getTransactions.setName("GET_TRANSACTIONS");
+            List<Permission> permissions = Arrays.asList(
+                    Permission.builder().name("GET_TRANSACTION").build(),
+                    Permission.builder().name("GET_TRANSACTIONS").build(),
+                    Permission.builder().name("UPDATE_TRANSACTION").build(),
+                    Permission.builder().name("CREATE_TRANSACTION").build(),
+                    Permission.builder().name("DELETE_TRANSACTION").build()
+            );
 
-            Permission updateTransactions = new Permission();
-            updateTransactions.setName("UPDATE_TRANSACTION");
-
-            Permission createTransaction = new Permission();
-            createTransaction.setName("CREATE_TRANSACTION");
-
-            Permission deleteTransaction = new Permission();
-            deleteTransaction.setName("DELETE_TRANSACTION");
-
-
-            permissionRepository.save(getTransaction);
-            permissionRepository.save(getTransactions);
-            permissionRepository.save(createTransaction);
-            permissionRepository.save(updateTransactions);
-            permissionRepository.save(deleteTransaction);
+            permissionRepository.saveAll(permissions);
         }
     }
 }

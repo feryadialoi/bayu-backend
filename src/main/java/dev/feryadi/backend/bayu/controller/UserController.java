@@ -8,11 +8,14 @@ import dev.feryadi.backend.bayu.model.response.UserResponse;
 import dev.feryadi.backend.bayu.security.annotation.IsAdmin;
 import dev.feryadi.backend.bayu.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,7 +27,7 @@ public class UserController extends BaseController {
     private final UserService userService;
 
     @IsAdmin
-    @GetMapping(value = {"/api/v1/users"})
+    @GetMapping(value = "/api/v1/users")
     public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers(
             Pageable pageable,
             @RequestParam(value = "name", required = false) String name,
@@ -43,14 +46,13 @@ public class UserController extends BaseController {
                 .build();
 
         return createResponse(
-                HttpStatus.OK,
                 "Get list of user successfully",
                 userService.getUsers(listUserRequest)
         );
     }
 
-    @PostMapping(value = {"/api/v1/users"})
-    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) throws Exception {
+    @PostMapping(value = "/api/v1/users")
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         return createResponse(
                 HttpStatus.CREATED,
                 "User created successfully",
@@ -59,23 +61,50 @@ public class UserController extends BaseController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @GetMapping(value = {"/api/v1/users/{userId}"})
-    public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable(value = "userId") Long userId) throws Exception {
+    @GetMapping(value = "/api/v1/users/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable(value = "userId") Long userId) {
         return createResponse(
-                HttpStatus.OK,
                 "Get user successfully",
                 userService.getUser(userId)
         );
     }
 
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @PutMapping(value = {"/api/v1/users/{userId}"})
-    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable(value = "userId") Long userId, @Valid @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
+    @PutMapping(value = "/api/v1/users/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(
+            @PathVariable(value = "userId") Long userId,
+            @Valid @RequestBody UpdateUserRequest updateUserRequest
+    ) {
         return createResponse(
-                HttpStatus.OK,
                 "User updated successfully",
                 userService.updateUser(userId, updateUserRequest)
         );
     }
+
+
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
+    @PutMapping(value = "/api/v1/users/{userId}/photos")
+    public ResponseEntity<ApiResponse<String>> updateUserPhoto(
+            @PathVariable(value = "userId") Long userId,
+            @RequestParam("photo") MultipartFile photo
+    ) {
+        return createResponse(
+                "User photo updated successfully",
+                userService.updateUserPhoto(userId, photo)
+        );
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
+    @GetMapping(
+            value = "/api/v1/users/{userId}/photos",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE}
+    )
+    public ResponseEntity<Resource> getUserPhoto(
+            @PathVariable(value = "userId") Long userId
+    ) {
+        return ResponseEntity.ok(userService.getUserPhoto(userId));
+    }
+
 
 }

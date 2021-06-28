@@ -23,9 +23,8 @@ public class UserMutationController extends BaseController {
 
     private final UserMutationService userMutationService;
 
-
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @GetMapping(value = {"/api/v1/users/{userId}/mutations"})
+    @GetMapping(value = "/api/v1/users/{userId}/mutations")
     public ResponseEntity<ApiResponse<List<UserMutationResponse>>> getUserMutations(
             Pageable pageable,
             @PathVariable(value = "userId") Long userId,
@@ -39,20 +38,18 @@ public class UserMutationController extends BaseController {
                 .build();
 
         return createResponse(
-                HttpStatus.OK,
                 "Get user mutations successfully",
                 userMutationService.getUserMutations(userId, listUserMutationRequest)
         );
     }
 
     @PreAuthorize("hasRole('ADMIN') or @userSecurity.hasUserId(authentication, #userId)")
-    @GetMapping(value = {"/api/v1/users/{userId}/mutations/{mutationId}"})
+    @GetMapping(value = "/api/v1/users/{userId}/mutations/{mutationId}")
     public ResponseEntity<ApiResponse<UserMutationDetailResponse>> getUserMutation(
             @PathVariable(value = "userId") Long userId,
             @PathVariable(value = "mutationId") Long mutationId
     ) {
         return createResponse(
-                HttpStatus.OK,
                 "Get user mutation successfully",
                 userMutationService.getUserMutation(userId, mutationId)
         );

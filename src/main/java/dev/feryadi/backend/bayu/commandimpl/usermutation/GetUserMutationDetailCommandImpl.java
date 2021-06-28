@@ -36,7 +36,7 @@ public class GetUserMutationDetailCommandImpl implements GetUserMutationDetailCo
                 Wallet wallet = user.getWallet();
                 Mutation mutation = optionalMutation.get();
 
-                if (mutation.getOriginWallet().equals(wallet) || mutation.getDestinationWallet().equals(wallet)) {
+                if (mutation.getSenderWallet().equals(wallet) || mutation.getReceiverWallet().equals(wallet)) {
                     return userMutationDetailMapper.mapMutationToUserMutationDetailResponse(mutation);
                 }
 
